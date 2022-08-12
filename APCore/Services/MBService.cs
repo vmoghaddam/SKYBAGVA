@@ -151,9 +151,9 @@ namespace APCore.Services
             return new DataResponse() { IsSuccess = true, Data = result };
         }
 
-        public async Task<DataResponse> GetLoadsheet(int flightId) 
+        public async Task<DataResponse> GetLoadsheet(int flightId)
         {
-            var entity = _context.ViewLoadsheets.SingleOrDefault(q => q.ID == flightId);
+            var entity = _context.FlightInformations.SingleOrDefault(q => q.ID == flightId);
             return new DataResponse() { IsSuccess = true, Data = entity };
 
         }
