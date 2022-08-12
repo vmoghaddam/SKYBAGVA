@@ -1,0 +1,392 @@
+﻿﻿
+<style>
+    .ctd {
+        border: 1px solid #eee;
+        text-align: center;
+    }
+
+    .ctd-empty {
+        border: 0px solid #eee;
+        text-align: center;
+    }
+
+    .ctr {
+        /*height:30px;*/
+    }
+
+    .ctd-center {
+        background-color: lightseagreen;
+    }
+
+    .ctd-selected {
+        background-color: red;
+    }
+
+    .no-padding {
+        padding: 0 !important;
+    }
+</style>
+<div ng-controller="mbController">
+    <div id="popup_mb" dx-popup="popup_mb" class="no-padding">
+        <div style="padding:5px;">
+
+            <div id="scroll_mb" dx-scroll-view="scroll_mb" style="margin-top:5px">
+                <table style="margin-top:10px;border:1px solid #eee;width:100%;color:lightgray" class="dx-border">
+                    <tr>
+                        <td colspan="12" style="background-color:lightgray;padding:7px;text-align:left;color:black;font-weight:bold">
+                            Crew
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Pilot: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_pilot" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Cabin: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_cabin" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Security: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_security" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Maintenance: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_main" class="center"></div></td>
+                    </tr>
+                </table>
+                <table style="margin-top:10px;border:1px solid #eee;width:100%;color:lightgray" class="dx-border">
+                    <tr>
+                        <td colspan="12" style="background-color:lightgray;padding:7px;text-align:left;color:black;font-weight:bold">
+                            CSOP Dist
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> A: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_A" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> B: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_B" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> C: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_C" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> D: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_D" class="center"></div></td>
+                    </tr>
+                </table>
+                <table style="margin-top:10px;border:1px solid #eee;width:100%;color:lightgray" class="dx-border">
+                    <tr>
+                        <td colspan="12" style="background-color:lightgray;padding:7px;text-align:left;color:black;font-weight:bold">
+                            Passenger
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Adult: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_adult" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Child: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_child" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Infant: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_infant" class="center"></div></td>
+                        <td style="padding:7px;text-align:left;">
+                            <div style="text-align:left; font-weight: bold"> Total passenger: </div>
+                            <div dx-number-box="txt_totalPassenger" class="center"></div>
+                            <div style="text-align:left; font-weight: bold; padding-top:3px"> SOB: </div>
+                            <div dx-number-box="txt_sob" class="center"></div>
+                        </td>
+                    </tr>
+                </table>
+                <table style="margin-top:10px;border:1px solid #eee;width:100%;color:lightgray" class="dx-border">
+                    <tr>
+                        <td colspan="12" style="background-color:lightgray;padding:7px;text-align:left;color:black;font-weight:bold">
+                            Cargo Compartment
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> CPT 1: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_cpt1" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> CPT 2: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_cpt2" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> CPT 3: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_cpt3" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> CPT 4: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_cpt4" class="center"></div></td>
+                    </tr>
+                </table>
+                <!--<table style="margin-top:10px;border:1px solid #eee;width:100%;color:lightgray" class="dx-border">
+                    <tr>
+                        <td colspan="12" style="background-color:lightgray;padding:7px;text-align:left;color:black;font-weight:bold">
+                            Fuel
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Take Off Fuel: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_toFuel" class="center"></div></td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Trip Fuel: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_tiFuel" class="center"></div></td>
+
+                    </tr>
+                </table>-->
+                <table style="margin-top:10px;border:1px solid #eee;width:100%;color:lightgray" class="dx-border">
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Pantry Code: </td>
+                        <td style="padding:7px"><div dx-select-box="sb_pantryCode"> </div> </td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold"> Max Take Off Weight: </td>
+                        <td style="padding:7px;text-align:left;"><div dx-number-box="txt_maxtow" class="center"></div></td>
+                    </tr>
+                </table>
+
+
+                <table style="margin-top:10px;width:100%;color:white">
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">L O A D S H E E T</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">ALL WEAIGHT IN KILOGRAMS</td>
+                    </tr>
+
+
+                </table>
+                <table style="margin-top:10px;width:100%;color:white">
+                    <tr>
+                        <td colspan="2" style="padding: 7px;text-align: right">WEIGHT</td>
+                        <td colspan="4" style="text-align:center">DISTRIBUTION</td>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">LOAD IN COMPARTMENTS</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{mbData.CARGO}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold;width:10%">1/{{mbData.CPT1}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold;width:10%">2/{{mbData.CPT2}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold;width:10%">3/{{mbData.CPT3}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold;width:10%">4/{{mbData.CPT4}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">PASSENGER/CABIN BAG</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{(mbData.PaxAdult + mbData.PaxInfant + mbData.FSO + mbData.FM) * 84 + (mbData.PaxChild) * 35}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{mbData.PaxAdult}}/{{mbData.PaxChild}}/{{mbData.PaxInfant}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">TTL/{{mbData.PaxAdult + mbData.PaxChild  + mbData.FSO + mbData.FM}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">CAB/{{mbData.BaggageWeight}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">TOTAL TRAFFIC LOAD</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold; width:10%">{{(mbData.PaxAdult + mbData.FSO + mbData.FM) * 84  + mbData.PaxChild * 35 + mbData.CARGO}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">BLKD</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">0</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">DRY OPERATING WEIGHT</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{mbData.DOW}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">ZERO FUEL WEIGHT</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{mbData.ZFW}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">MAX</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{mbData.MAXZFW}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">TAKE OFF FUEL</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{mbData.FPFuel}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">TAKE OFF WEIGHT</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{mbData.TOW}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">MAX</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{mbData.MAXTOW}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">TRIP FUEL</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{mbData.FPTripFuel}}</td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">LANDING WEIGHT</td>
+                        <td style="padding: 7px;text-align:center; font-weight: bold">{{mbData.LNW}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">MAX</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{mbData.MAXLNW}}</td>
+                    </tr>
+
+
+                </table>
+                <table>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">BALANCE AND SEATING CONDITIONS</td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold; width:10%">DOI</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold; width:20%">{{mbData.DOI.toFixed(2)}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold;width:10%">DLI</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{(mbData.DLI).toFixed(2)}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">LIZFW</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{mbData.LIZFW.toFixed(2)}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">MACZFW</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{(mbData.MACZFW).toFixed(2)}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">LITOW</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{mbData.LITOW.toFixed(2)}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">MACTOW</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{(mbData.MACTOW).toFixed(2)}}</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">LILNW</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{mbData.LILNW.toFixed(2)}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">MACLNW</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{(mbData.MACLNW).toFixed(2)}}</td>
+
+                    </tr>
+
+                </table>
+                <table>
+
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">STAB TO</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">{{(mbData.StabTrimFive).toFixed(2)}} (5)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">SEATING AREA:</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">OA/{{mbData.OASec}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">OB/{{mbData.OBSec}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">OC/{{mbData.OCSec}}</td>
+                        <td style="padding: 7px;text-align:left; font-weight: bold">OD/{{mbData.ODSec}}</td>
+                    </tr>
+                </table>
+                <!--<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="display:inline-block">
+                        <p style="text-align:right">WEIGHT</p>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">LOAD IN COMPARTMENT</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{entity.cpt1 + entity.cpt2 + entity.cpt3 + entity.cpt4}}</p>
+                            <br />
+                        </div>
+
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">PASSENGER/CABINBAG</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{(entity.adult * 84) + (entity.child * 35)}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">TOTAL TRAFIC LOAD</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{mbData.TTL}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">DRY OPERATING WEIGHT</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{mbData.DOW}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">ZERO FUEL WEIGHT ACTUAL</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{mbData.ZFW}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">TAKE OFF FUEL</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{mbData.TOFuel}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">TAKE OFF WEIGHT ACTUAL</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{mbData.TOW}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">TRIP FUEL</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{mbData.TripFuel}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-8 col-md-8 col-sm-8 col-xs-8 no-padding" style="text-align:left;display:inline-block">LANDING WEIGHT ACTUAL</p>
+                            <p class="col-lg-4 col-md-4 col-sm-4 col-xs-4 no-padding" style="text-align:right;display:inline-block">{{mbData.LDGW}}</p>
+                        </div>
+                        <p style="text-align:left;padding-top:30px">BALANCE AND SEATING CONDITIONS</p>
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">DOI</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">{{mbData.DOI.toFixed(2)}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">DLI</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:right;display:inline-block">{{mbData.DLI.toFixed(2)}}</p>
+                        </div>
+
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">LIZFW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">{{mbData.LIZFW.toFixed(2)}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">MACZFW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:right;display:inline-block">{{mbData.MACZFW.toFixed(2)}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">LITOW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">{{mbData.LITOW.toFixed(2)}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">MACTOW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:right;display:inline-block">{{mbData.MACTOW.toFixed(2)}}</p>
+                        </div>
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">LILNW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:left;display:inline-block">{{mbData.LILDG.toFixed(2)}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">MACLNW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:right;display:inline-block">{{mbData.MACLDG.toFixed(2)}}</p>
+                        </div>
+                        <div>
+                            <p style="text-align:left;display:inline-block">STAB TO</p>
+                            <p style="text-align:left;display:inline-block">{{mbData.StabTrimFive.toFixed(2)}} (5)</p>
+                        </div>
+
+                        <div>
+                            <p style="text-align:left;display:inline-block">SEATING AREA: OA/{{mbData.OA}} OB/{{mbData.OB}} OC/{{mbData.OC}} OD/{{mbData.OD}}</p>
+                        </div>
+                        <div>
+                            <p style="text-align:left;display:inline-block">PANTRY CODE:{{entity.pantryCode}}</p>
+                        </div>
+                        <div>
+                            <p style="text-align:left;margin-bottom:5px">UNDERLOAD BEFORE LMC</p>
+                            <p style="text-align:left;margin-bottom:5px">CAPITAN INFORMATION / NOTES</p>
+                        </div>
+                        <div>
+                            <p style="text-align:left;display:inline-block">ZFW:{{(mbData.ZFW * 2.205).toFixed(0)}} LBS</p>
+                            <p style="text-align:left;display:inline-block">TOW:{{(mbData.TOW * 2.205).toFixed(0)}} LBS</p>
+                            <p style="text-align:left;display:inline-block">LNW:{{(mbData.LDGW * 2.205).toFixed(0)}} LBS</p>
+                            <p style="text-align:left;display:inline-block">TOF:{{(mbData.ZFW * 2.205).toFixed(0)}} LBS</p>
+                        </div>
+                        <div>
+                            <p style="text-align:left;display:inline-block">TOF:{{(mbData.TOFuel * 2.205).toFixed(0)}} LBS</p>
+                            <p style="text-align:left;display:inline-block">TIF:{{(mbData.TripFuel * 2.205).toFixed(0)}} LBS</p>
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="display:inline-block">
+                        <p style="text-align:center">DISTRIBUTION</p>
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">1/{{entity.cpt1}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">2/{{entity.cpt2}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">3/{{entity.cpt3}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">4/{{entity.cpt4}}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="display:inline-block">
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">{{entity.adult}}/{{entity.child}}/{{entity.infant}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">TTl</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">{{entity.adult + entity.child + entity.infant + entity.fm + entity.fso}}</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">CAB/ 0</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="display:inline-block">
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block;padding-left:30px">MAXZFW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">47627</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="display:inline-block">
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block;padding-left:30px">MAXTOW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">{{entity.maxtow}}</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="display:inline-block">
+                        <div>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block;padding-left:30px">MAXLNW</p>
+                            <p class="col-lg-3 col-md-3 col-sm-3 col-xs-3 no-padding" style="text-align:center;display:inline-block">51709</p>
+                        </div>
+                    </div>
+                </div>-->
+
+
+            </div>
+            <div style="clear:both"></div>
+        </div>
+    </div>
+
+
+    <div dx-load-panel="loadPanel"></div>
+

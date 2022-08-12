@@ -1,0 +1,222 @@
+﻿<style>
+    .lib-profile {
+        background: white;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        padding-right: 2px;
+        padding-left: 2px;
+        margin: 5px 5px 0 5px;
+        border: 1px solid #bbb;
+        transition: background 0.4s;
+    }
+
+    .dx-popup-title.dx-toolbar .dx-toolbar-item:last-child {
+        max-width: 300px !important;
+    }
+
+    .lib-cer {
+        /*background-position: center;
+        transition: background 0.4s;
+        background: #fff radial-gradient(circle, transparent 1%, #eee 1%) center/15000%  ;*/
+         
+        transition: background 0.4s;
+    }
+</style>
+<div style="height:100%; ">
+    <div class="box profileview maincontainer" style="height:100%;overflow-y:hidden;max-width:1024px;margin:0 auto 0 auto;  ">
+        <div class="rowx header" ng-include="'app/views/header.html'"></div>
+        <div style="position:relative;">
+            <div ng-include="'app/views/menu.html'"></div>
+        </div>
+
+        <div class="rowx content" style="clear:both;  ">
+            <div id="scrollviewprofile" dx-scroll-view="scroll_profileview">
+                <div style="padding:10px;">
+                    <div style="padding: 5px 10px 5px 5px;border:1px solid #ccc" class="dx-border">
+                        <table style="width:100%;">
+                            <tr>
+                                <td style="padding:10px;width:100px;text-align:right">First Name</td>
+                                <td style="padding:10px 0;">  <div dx-text-box="txt_FirstName" class="center"></div></td>
+                                <td style="padding:10px;width:15%;text-align:right">Last Name</td>
+                                <td style="padding:10px 0;"> <div dx-text-box="txt_LastName" class="center"></div></td>
+
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; text-align:right">NID</td>
+                                <td style="padding:10px 0;"> <div dx-text-box="txt_nid" class="center"></div></td>
+                                <td style="padding:10px;text-align:right">Birth Date</td>
+                                <td style="padding:10px 0;"> <div dx-date-box="date_DateBirth" class="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; text-align:right">Mobile</td>
+                                <td style="padding:10px 0;"> <div dx-text-box="txt_Mobile" class="center"></div></td>
+                                <td style="padding:10px; text-align:right">Home Base</td>
+                                <td style="padding:10px 0;"> <div dx-text-box="txt_base" class="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; text-align:right">Passport No</td>
+                                <td style="padding:10px 0;">  <div dx-text-box="txt_PassportNumber" class="center"></div></td>
+                                <td style="padding:10px; text-align:right">Expire Date</td>
+                                <td style="padding:10px 0;"> <div dx-date-box="date_DatePassportExpire" class="center"></div></td>
+
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; text-align:right">Rank</td>
+                                <td style="padding:10px 0;"> <div dx-text-box="txt_rank" class="center"></div></td>
+                                <td style="padding:10px; text-align:right">Types</td>
+                                <td style="padding:10px 0;"> <div dx-text-box="txt_types" class="center"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; text-align:right">Address</td>
+                                <td style="padding:10px 0;" colspan="3"> <div dx-text-box="txt_city"></div></td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px; text-align:right"></td>
+                                <td style="padding:10px 0;" colspan="3"> <div dx-text-box="txt_address"></div></td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+
+                    <div style="padding: 0;border:1px solid #ccc;margin-top:10px" class="dx-border">
+                        <div style="background:#bbbbbb;padding:10px;">
+                            <span style="color:black;font-weight:bold;">Flight Crew Licence</span>
+
+                        </div>
+                        <div style="padding: 5px 10px 5px 5px; " class="dx-border">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="padding:10px;width:100px;text-align:right">Title</td>
+                                    <td style="padding:10px 0;">  <div dx-text-box="txt_lictitle" class="center"></div></td>
+                                    <td style="padding:10px;width:15%;text-align:right">NO</td>
+                                    <td style="padding:10px 0;"> <div dx-text-box="txt_licno" class="center"></div></td>
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px;width:100px;text-align:right">Ratings</td>
+                                    <td style="padding:10px 0;" colspan="3">  <div dx-text-box="txt_licrating"></div></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px; text-align:right">Valid Until</td>
+                                    <td style="padding:10px 0;"> <div dx-date-box="date_lic" class="center"></div></td>
+                                    <td style="padding:10px;text-align:right">IR Valid Until</td>
+                                    <td style="padding:10px 0;"> <div dx-date-box="date_licir" class="center"></div></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:10px;width:100px;text-align:right">Ratings</td>
+                                    <td style="padding:10px 0;" colspan="3">  <div dx-text-box="txt_licremark"></div></td>
+
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+
+                    <div style="padding: 0;border:1px solid #ccc;margin-top:10px" class="dx-border">
+                        <div style="background:#bbbbbb;padding:10px;">
+                            <span style="color:black;font-weight:bold;">Crew Member Certificate</span>
+
+                        </div>
+                        <div style="padding: 5px 10px 5px 5px; " class="dx-border">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="padding:10px;width:110px;text-align:right">Employed By</td>
+                                    <td style="padding:10px 0;">  <div dx-text-box="txt_cmcemployedby" class="center"></div></td>
+                                    <td style="padding:10px;width:15%;text-align:right">Occupation</td>
+                                    <td style="padding:10px 0;"> <div dx-text-box="txt_cmcoccupation" class="center"></div></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td style="padding:10px; text-align:right">Date Of Expiry</td>
+                                    <td style="padding:10px 0;"> <div dx-date-box="date_cmcexp" class="center"></div></td>
+                                    <td style="padding:10px;text-align:right"></td>
+                                    <td style="padding:10px 0;"> </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="padding: 0;border:1px solid #ccc;margin-top:10px" class="dx-border">
+                        <div style="background:#bbbbbb;padding:10px;">
+                            <span style="color:black;font-weight:bold;">Medical Certificate</span>
+
+                        </div>
+                        <div style="padding: 5px 10px 5px 5px; " class="dx-border">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="padding:10px;width:100px;text-align:right">Class</td>
+                                    <td style="padding:10px 0;">  <div dx-text-box="txt_medclass" class="center"></div></td>
+                                    <td style="padding:10px;width:15%;text-align:right">Limitation</td>
+                                    <td style="padding:10px 0;"> <div dx-text-box="txt_medlimitation" class="center"></div></td>
+
+                                </tr>
+
+                                <tr>
+                                    <td style="padding:10px; text-align:right">Issue Date</td>
+                                    <td style="padding:10px 0;"> <div dx-date-box="date_medexp" class="center"></div></td>
+                                    <td style="padding:10px;text-align:right">Expire Date</td>
+                                    <td style="padding:10px 0;"> <div dx-date-box="date_medissue" class="center"></div></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <div style="padding: 0;border:1px solid #ccc;margin-top:10px" class="dx-border">
+                        <div style="background:#bbbbbb;padding:10px;">
+                            <span style="color:black;font-weight:bold;">ICAO LPR</span>
+
+                        </div>
+                        <div style="padding: 5px 10px 5px 5px; " class="dx-border">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="padding:10px;width:100px;text-align:right">Level</td>
+                                    <td style="padding:10px 0;">  <div dx-text-box="txt_lprlevel" class="center"></div></td>
+                                    <td style="padding:10px;width:15%;text-align:right">Valid Until</td>
+                                    <td style="padding:10px 0;"> <div dx-date-box="date_lprexp" class="center"></div></td>
+
+                                </tr>
+
+                                
+
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+          
+            
+
+
+
+
+        </div>
+
+        
+        <div class="rowx footer app-footer" ng-include="'app/views/footer.html'" ng-init="type = 'profile';" style="padding:0;flex:0 0 45px"></div>
+    </div>
+
+
+
+
+
+
+    
+
+
+
+
+    <div dx-load-panel="loadPanel"></div>
+
+
+</div>

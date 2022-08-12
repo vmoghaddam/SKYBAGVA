@@ -1,0 +1,52 @@
+﻿<style>
+    .dx-row.dx-selection {
+        background-color: #009973;
+    }
+</style>
+<div style="height:100%;">
+    <div class="box rptfltsimple maincontainer" style="height:100%;overflow-y:hidden;max-width:1024px;margin:0 auto 0 auto;background:transparent !important">
+        <div class="rowx header" ng-include="'app/views/header.html'"></div>
+        <div style="position:relative;">
+            <div ng-include="'app/views/menu.html'"></div>
+        </div>
+
+        <div class="rowx content" style="clear:both; ">
+            <!-- <div style="padding:20px;" class="ripple">vahid</div>-->
+            <div class="dx-border thin-scroll0" style="padding:10px;border-bottom:1px solid #eee">
+                <div dx-scroll-view="scroll_btns">
+                    <table style="width:1300px">
+                        <tr>
+
+                            <td style="width:130px;padding:0 7px 0 0px"> <div dx-date-box="date_from" class="center"></div></td>
+                            <td style="width:130px;padding:0 7px 0 0px"> <div dx-date-box="date_to" class="center"></div></td>
+                            <td style="width:130px;padding:0 7px 0 0px"> <div dx-select-box="sb_from"></div></td>
+                            <td style="width:130px;padding:0 7px 0 0px"> <div dx-select-box="sb_to"></div></td>
+                            <td style="width:100px;padding:0 7px 0 0px"> <div dx-select-box="sb_reg"></div></td>
+
+                            <td style="width:100px;padding:0 7px 0 0px"> <div dx-select-box="sb_pf"></div></td>
+
+                            <td style="width:150px;padding:0 7px 0 0px"> <div dx-select-box="sb_ip"></div></td>
+                            <td style="width:150px;padding:0 7px 0 0px"> <div dx-select-box="sb_cpt"></div></td>
+                            <td style="width:150px;padding:0 7px 0 0px"> <div dx-select-box="sb_fo"></div></td>
+
+
+
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+
+            <div dx-data-grid="dg_flight" id="dg_flight" class="content" style="overflow-y:hidden"></div>
+
+        </div>
+
+        <div class="rowx footer app-footer" ng-include="'app/views/footer.html'" ng-init="type = 'rptfltsimple';" style="padding:0;flex:0 0 45px"></div>
+    </div>
+
+
+
+
+    <div dx-load-panel="loadPanel"></div>
+    <div ng-include="'app/views/jl.html?vx=2'"></div>
+</div>

@@ -1,0 +1,36 @@
+﻿<style>
+    video {
+        /* width: 800px;
+        height: 600px;*/
+        background: rgba(0,0,0,0.2);
+        /* -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);  */
+    }
+</style>
+<div ng-controller="cameraController">
+    <div id="popup_add" dx-popup="popup_add" class="no-padding">
+        <div style="padding:5px;padding-top:10px;padding:0 ">
+           <div id="scroll_camera" dx-scroll-view="scroll_camera" style="margin-top:5px;padding:0 5px 0 5px"> 
+            <div style="position:relative;">
+                <video id="camera-stream" class="border border-5  "></video>
+
+                <div ng-show="img_visible" id="img_container" style="background:#363640;position:absolute;top:0;left:0">
+
+                    <img id="saved_img2" style="width:100%;position:relative" />
+
+                </div>
+
+            </div>
+          </div>  
+            <!--<div class="">
+                <button disabled id="flip-btn" class="btn btn-sm btn-warning">
+                    Flip Camera
+                </button>
+                <button id="capture-camera" class="btn btn-sm btn-primary">
+                    Take photo
+                </button>
+            </div>-->
+
+        </div>
+    </div>
+</div>

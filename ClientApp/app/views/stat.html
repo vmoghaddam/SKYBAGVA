@@ -1,0 +1,187 @@
+﻿<style>
+    .ftl-tbl{
+
+    }
+    .ftl-tbl tr td {text-align:center;border:1px solid #ccc;padding:5px;font-size:15px}
+</style>
+<div style="height:100%;">
+    <div class="box stat maincontainer" style="height:100%;overflow-y:hidden;max-width:1024px;margin:0 auto 0 auto;background:transparent !important">
+        <div class="rowx header" ng-include="'app/views/header.html'"></div>
+        <div style="position:relative;">
+            <div ng-include="'app/views/menu.html'"></div>
+        </div>
+
+        <div class="rowx content" style="clear:both; ">
+            <!-- <div style="padding:20px;" class="ripple">vahid</div>-->
+
+            <div id="scrollviewstat" dx-scroll-view="scroll_stat">
+                <table style="border-bottom:1px solid #eee;width:100%;">
+                    <tr>
+                        <td style="width:60%;font-size:15px;font-weight:bold;padding:0 0 0 20px">
+                            FLIGHT TIME LIMITATION
+                        </td>
+                        <td style="width:40%">
+                            <div style="float:right;  padding: 5px;"> <div dx-date-box="date_ftl" class="center dx-border"></div></div>
+                            <div style="clear:both"></div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="clear:both"></div>
+                <div style="margin-top:10px;padding:0 5px 0 5px">
+                    <div class="col-lg-4 col-sm-4 col-md-4 padding-0">
+                        <div dx-bar-gauge="duty7Gauge"></div>
+                        <div style="text-align:center;font-size:15px;font-weight:bold">{{getDutyText(7)}}</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 padding-0">
+                        <div dx-bar-gauge="duty14Gauge"></div>
+                        <div style="text-align:center;font-size:15px;font-weight:bold">{{getDutyText(14)}}</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 padding-0">
+                        <div dx-bar-gauge="duty28Gauge"></div>
+                        <div style="text-align:center;font-size:15px;font-weight:bold">{{getDutyText(28)}}</div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div style="margin-top:10px;padding:10px 20px 10px 20px;">
+                        <table class="ftl-tbl" style="margin-top:10px;border:1px solid #ccc;width:100%;">
+                            <tr>
+                                <td></td>
+                                <td style="background:#666666">7 Days</td>
+                                <td style="background:#666666">14 Days</td>
+                                <td style="background:#666666">28 Days</td>
+                            </tr>
+                            <tr>
+                                <td style="background:#666666">USED</td>
+                                <td ng-style="getDutyCellStyle(7)">{{getDutyText2(7)}}</td>
+                                <td ng-style="getDutyCellStyle(14)">{{getDutyText2(14)}}</td>
+                                <td ng-style="getDutyCellStyle(28)">{{getDutyText2(28)}}</td>
+                            </tr>
+                            <tr>
+                                <td style="background:#666666">REMAINING</td>
+                                <td>{{getDutyRemainingText(7)}}</td>
+                                <td>{{getDutyRemainingText(14)}}</td>
+                                <td>{{getDutyRemainingText(28)}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div style="padding:15px;font-size:15px;font-weight:bold;text-align:center;border-bottom:1px solid #ccc">DUTY</div>
+
+
+                </div>
+                <div style="margin-top:10px;padding:0 5px 0 5px">
+                    <div class="col-lg-4 col-sm-4 col-md-4 padding-0">
+                        <div dx-bar-gauge="flight28Gauge"></div>
+                        <div style="text-align:center;font-size:15px;font-weight:bold">{{getFlightText(28)}}</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 padding-0">
+                        <div dx-bar-gauge="flightYearGauge"></div>
+                        <div style="text-align:center;font-size:15px;font-weight:bold">{{getFlightText(12)}}</div>
+                    </div>
+                    <div class="col-lg-4 col-sm-4 col-md-4 padding-0">
+                        <div dx-bar-gauge="flightCYearGauge"></div>
+                        <div style="text-align:center;font-size:15px;font-weight:bold">{{getFlightText(1)}}</div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <div style="margin-top:10px;padding:10px 20px 10px 20px;">
+                        <table class="ftl-tbl" style="margin-top:10px;border:1px solid #ccc;width:100%;">
+                            <tr>
+                                <td></td>
+                                <td style="background:#666666">28 Days</td>
+                                <td style="background:#666666">12 Months</td>
+                                <td style="background:#666666">Year</td>
+                            </tr>
+                            <tr>
+                                <td style="background:#666666">USED</td>
+                                <td ng-style="getFlightCellStyle(28)">{{getFlightText2(28)}}</td>
+                                <td ng-style="getFlightCellStyle(12)">{{getFlightText2(12)}}</td>
+                                <td ng-style="getFlightCellStyle(1)">{{getFlightText2(1)}}</td>
+                            </tr>
+                            <tr>
+                                <td style="background:#666666">REMAINING</td>
+                                <td>{{getFlightRemainingText(28)}}</td>
+                                <td>{{getFlightRemainingText(12)}}</td>
+                                <td>{{getFlightRemainingText(1)}}</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div style="padding:15px;font-size:15px;font-weight:bold;text-align:center;border-bottom:1px solid #ccc">FLIGHT</div>
+
+
+                </div>
+
+
+                <table style="border-bottom:1px solid #eee;width:100%;">
+                    <tr>
+                        <td style="width:60%;font-size:15px;font-weight:bold;padding:0 0 0 20px">
+                            FLIGHTs
+                        </td>
+                        <td style="width:40%">
+                            <div style="float:right;  padding: 5px;">
+                                <!-- <div dx-date-box="date_bl" class="center dx-border"></div>-->
+                                <div dx-select-box="sb_year" class="center dx-border"></div>
+                            </div>
+                            <div style="clear:both"></div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="clear:both"></div>
+                <div style="margin-top:10px;padding:15px 25px 15px 25px;">
+                    <div dx-chart="chart_bl"></div>
+
+                </div>
+                <div style="margin-top:20px;padding:15px 25px 15px 25px;">
+                    <div dx-chart="chart_cnt"></div>
+
+                </div>
+                <div style="margin-top:20px;padding:15px 25px 15px 25px;">
+                    <div dx-chart="chart_fltratio"></div>
+
+                </div>
+                <div style="margin-top:10px;padding:10px 20px 10px 20px;">
+                    <table class="ftl-tbl" style="margin-top:10px;border:1px solid #ccc;width:100%;">
+                         
+                        <tr>
+                            <td style="background:#666666">Year</td>
+                            <td style="background:#666666">Month</td>
+                            <td style="background:#666666">Flight Time</td>
+                            <td style="background:#666666">Block Time</td>
+                            <td style="background:#666666">Flights</td>
+                            <td style="background:#666666">Flight/Leg</td>
+                            <td></td>
+                        </tr>
+                        <tr ng-repeat="x in data_bl">
+                            <td style="background:#666666" >{{x.Year}}</td>
+                            <td style="background:#666666" >{{x.MonthName}}</td>
+                            <td>{{formatMinutes(x.FlightTime)}}</td>
+                            <td>{{formatMinutes(x.BlockTime)}}</td>
+                            <td>{{ (x.Flights)}}</td>
+                            <td>{{formatMinutes(x.FLTRatio)}}</td>
+                            <td><div ng-click="goFlights(x.Year,x.Month)" style="background:#009973;padding:3px;">Details</div></td>
+                        </tr>
+                        <!--<tr>
+                            <td style="background:gray">USED</td>
+                            <td ng-style="getFlightCellStyle(28)">{{getFlightText2(28)}}</td>
+                            <td ng-style="getFlightCellStyle(12)">{{getFlightText2(12)}}</td>
+                            <td ng-style="getFlightCellStyle(1)">{{getFlightText2(1)}}</td>
+                        </tr>
+                        <tr>
+                            <td style="background:gray">REMAINING</td>
+                            <td>{{getFlightRemainingText(28)}}</td>
+                            <td>{{getFlightRemainingText(12)}}</td>
+                            <td>{{getFlightRemainingText(1)}}</td>
+                        </tr>-->
+                    </table>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="rowx footer app-footer" ng-include="'app/views/footer.html?vx=3'" ng-init="type = 'stat';" style="padding:0;flex:0 0 45px"></div>
+    </div>
+
+
+
+
+    <div dx-load-panel="loadPanel"></div>
+</div>
