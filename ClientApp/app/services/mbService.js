@@ -3,7 +3,6 @@ app.factory('mbService', ['$http', '$q', 'ngAuthSettings', '$rootScope', functio
     var serviceFactory = {};
 
     var _calLoadSheet = function (entity) {
-        console.log(entity);
         var deferred = $q.defer();
 
         $http.post($rootScope.apiUrl + 'save/loadsheet/' + entity.FlightId, entity).then(function (response) {
