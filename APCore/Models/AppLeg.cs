@@ -143,5 +143,6 @@ namespace APCore.Models
         public decimal? FPTripFuel { get; set; }
         public string ATL { get; set; }
         public string ATCPlan { get; set; }
+        public decimal? FuelPlanned { get; set; }
     }
 }

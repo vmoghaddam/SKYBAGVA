@@ -177,11 +177,13 @@ app.controller('notamController', ['$scope', '$location', 'flightService', 'auth
             return "station";
     };
     $scope.stationClick = function (x) {
-        var index = $scope.selectedStations.indexOf(x);
-        if (index != -1)
-            $scope.selectedStations.splice(index, 1);
-        else
-            $scope.selectedStations.push(x);
+        //var index = $scope.selectedStations.indexOf(x);
+        //if (index != -1)
+        //    $scope.selectedStations.splice(index, 1);
+        //else
+        //    $scope.selectedStations.push(x);
+        $scope.selectedStations = [];
+        $scope.selectedStations.push(x);
 
         $scope.filtered = Enumerable.From($scope.fdp.NOTAM)
             .Where(function (x) { return $scope.selectedStations.indexOf(x.StationId) != -1; })
@@ -222,7 +224,9 @@ app.controller('notamController', ['$scope', '$location', 'flightService', 'auth
         $scope.stations = Enumerable.From($scope.stations).Distinct().ToArray();
         $scope.stations.push('OIIX');
         
-        $scope.selectedStations = Enumerable.From($scope.stations).ToArray();
+        //$scope.selectedStations = Enumerable.From($scope.stations).ToArray();
+        $scope.selectedStations = [];
+        $scope.selectedStations.push(Enumerable.From($scope.stations).FirstOrDefault());
         $scope.filtered = Enumerable.From($scope.fdp.NOTAM).OrderBy(function (x) { return $scope.stations.indexOf(x.StationId); }).ToArray();
        
         $scope.updateDr();

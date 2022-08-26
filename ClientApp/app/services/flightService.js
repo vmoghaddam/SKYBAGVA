@@ -4457,6 +4457,97 @@ app.factory('flightService', ['$http', '$q', 'ngAuthSettings', '$rootScope', fun
 
     };
     serviceFactory.getFC = _getFC;
+
+
+
+
+    //////////////////////////////////
+    var _saveRequestedFuel = async function (entity) {
+
+        var deferred = $q.defer();
+        var _db = db.getDb();
+
+        $http.post($rootScope.apiUrl + 'fuel/requested/save', entity).then(function (response) {
+
+            _db.AppCrewFlights.update(entity.FlightId, { ALT3: entity.Due, FuelPlanned:entity.Fuel }).then(function (res) {
+                console.log('req fuel',res);
+            });
+
+
+            deferred.resolve(response.data);
+        }, function (err, status) {
+
+            deferred.reject(Exceptions.getMessage(err));
+        });
+
+        return deferred.promise;
+        //var deferred = $q.defer();
+        //var _db = db.getDb();
+        //var _names = Enumerable.From(objs).Select('$.PropName').ToArray();
+        //var _props = await _db.OFPProp.where("OFPId").equals(_ofpId).toArray();
+        //_props = Enumerable.From(_props).Where(function (x) { return _names.indexOf(x.PropName) != -1; }).ToArray();
+        
+        //$.each(objs, function (_w, entity) {
+        //    entity.IsSynced = 1;
+        //    db.GetOFPPropByName2(entity.OFPId, entity.PropName, _props, function (_result) {
+                
+        //        if (!_result) {
+        //            deferred.reject("no property found in local db :" + entity.PropName);
+        //            return;
+        //        }
+        //        entity.Id = _result.Id;
+        //        entity.DateUpdate = momentUtcNowStringSecond();
+        //        db.PutOFPProp(entity.OFPId, entity.PropName, entity, function (row) {
+
+        //            if ($rootScope.getOnlineStatus()) {
+        //                console.log('     sending server');
+        //                $http.post($rootScope.apiUrl + 'ofp/prop/save', entity).then(function (response) {
+        //                    if (response.data.IsSuccess) {
+                               
+        //                        var item = response.data.Data;
+        //                        item.IsSynced = 1;
+        //                        db.DeleteOFPProp(item.OFPId, item.PropName, function () {
+        //                            db.PutOFPProp2(item.OFPId, item.PropName, item, function (dbitem) {
+        //                                console.log('     sending server done');
+        //                                deferred.resolve({ Data: dbitem, IsSuccess: 1 });
+        //                            });
+        //                        });
+
+        //                    }
+        //                    else
+        //                        deferred.resolve(response.data);
+
+        //                }, function (err, status) {
+
+        //                    deferred.reject(Exceptions.getMessage(err));
+        //                });
+        //            }
+        //            else {
+
+        //                row.IsSynced = 0
+
+        //                db.deSyncedOFPProp(entity.OFPId, entity.PropName, function () {
+
+        //                    deferred.resolve({ Data: row, IsSuccess: 1 });
+        //                });
+        //            }
+        //        });
+
+
+        //    });
+        //});
+
+        
+
+
+
+
+
+        //return deferred.promise;
+
+
+    };
+    serviceFactory.saveRequestedFuel = _saveRequestedFuel;
     //////////////////////////////////
     serviceFactory.checkInternet = _checkInternet;
     serviceFactory.checkLock = _checkLock;

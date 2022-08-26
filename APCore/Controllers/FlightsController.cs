@@ -135,6 +135,19 @@ namespace APCore.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Authorize]
+        [Route("api/fuel/requested/save")]
+        public async Task<IActionResult> SaveRequestedFuel(RequestedFuelViewModel dto)
+        {
+
+
+            var result = await _flightService.SaveRequestedFuel(dto);
+            if (!result.IsSuccess)
+                return NotFound(result.Errors);
+            return Ok(result);
+        }
+
 
         [HttpGet]
        

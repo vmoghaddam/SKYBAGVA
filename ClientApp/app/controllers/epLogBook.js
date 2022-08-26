@@ -149,8 +149,9 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
         width: 180,
 
         onClick: function (e) {
-             var data = { FlightId: $scope.selectedFlight.FlightId };
+            var data = { FlightId: $scope.selectedFlight.FlightId };
             $rootScope.$broadcast('InitMb', data);
+
         },
         bindingOptions: {
             disabled: 'IsLegLocked'
@@ -267,8 +268,6 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
             disabled: 'IsLegLocked'
         }
     };
-
-    
     $scope.leftHeight = $(window).height() - 190;
     $scope.scroll_left = {
         width: '100%',
@@ -361,6 +360,7 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
         $scope.lastFlight = items.length - 1 == index;
         $scope.preFlight = null;
         $scope.selectedFlight = item;
+
         if (index && index > 0) {
             $scope.preFlight = items[index - 1];
 
@@ -514,6 +514,8 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
     };
     ///////////////////////////////
     $scope.reqFuelClick = function (flt) {
+        //$scope._reqfuel=$scope.selectedFlight.ALT5;
+        
         $scope.popup_prf_visible = true;
     };
     $scope.popup_prf_visible = false;
@@ -530,8 +532,18 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
             {
                 widget: 'dxButton', location: 'after', options: {
                     type: 'default', text: 'Save', onClick: function (e) {
+                        if (!$scope.selectedFlight.FuelPlanned)
+                            return;
+                        var dto = { FlightId: $scope.selectedFlight.FlightId, Due: $scope.selectedFlight.ALT3, Fuel: $scope.selectedFlight.FuelPlanned };
+                        $scope.loadingVisible = true;
+                        flightService.saveRequestedFuel(dto).then(function (response) {
+                            $scope.loadingVisible = false;
 
-                        $scope.popup_prf_visible = false;
+                            
+                            $scope.popup_prf_visible = false;
+
+                        }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
+                       
 
                     }
                 }, toolbar: 'bottom'
@@ -560,7 +572,7 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
         onHiding: function () {
 
             //$scope.clearEntity();
-
+            $scope._reqfuel = null;
             $scope.popup_prf_visible = false;
 
         },
@@ -583,11 +595,11 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
         showSpinButtons: false,
         readOnly: true,
         bindingOptions: {
-            // value: "entity.FuelRemaining"
+            value: "selectedFlight.FPFuel"
         },
 
     };
-
+    $scope._reqfuel = null;
     $scope.fuel_prf = {
         valueChangeEvent: 'keyup',
         showClearButton: false,
@@ -597,12 +609,15 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
         showSpinButtons: false,
 
         bindingOptions: {
-            // value: "entity.FuelRemaining"
+            value: "selectedFlight.FuelPlanned"
         },
 
     };
     $scope.fuel_due = {
         height: 70,
+        bindingOptions: {
+            value: "selectedFlight.ALT3"
+        }
     }
 
     ////////////////////////////

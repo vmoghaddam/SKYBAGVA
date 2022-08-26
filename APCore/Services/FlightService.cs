@@ -21,6 +21,7 @@ namespace APCore.Services
 
         Task<DataResponse> GetDoc(int flightid, int fdpid, string type);
         Task<DataResponse> SaveDoc(DocViewModel log);
+        Task<DataResponse> SaveRequestedFuel(RequestedFuelViewModel dto);
         Task<DataResponse> GetCrewFlights(int crewId, DateTime from, DateTime to);
         Task<DataResponse> GetFlights(DateTime from, DateTime to, string no, string origin, string destination, string route, string cpt, string fo, string ip, string sccm, string register);
 
@@ -109,7 +110,23 @@ namespace APCore.Services
                 IsSuccess = true
             };
         }
+       
+        public async Task<DataResponse> SaveRequestedFuel(RequestedFuelViewModel dto)
+        {
 
+            var flight = await _context.FlightInformations.Where(q => q.ID == dto.FlightId).FirstOrDefaultAsync();
+
+            flight.ALT3 = dto.Due;
+            flight.FuelPlanned = dto.Fuel;
+
+
+             
+            var saveResult = await _context.SaveAsync();
+            if (saveResult.Succeed)
+                return new DataResponse() { IsSuccess = true, Data = dto };
+            else
+                return new DataResponse() { IsSuccess = false };
+        }
         public async Task<DataResponse> SaveDoc(DocViewModel log)
         {
             var current = await _context.Docs.Where(q =>

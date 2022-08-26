@@ -5,6 +5,14 @@ using System.Threading.Tasks;
 
 namespace APCore.ViewModels
 {
+    public class RequestedFuelViewModel
+    {
+        public int FlightId { get; set; }
+        public decimal? Fuel { get; set; }
+        public string Due { get; set; }
+        
+
+    }
     public class DocViewModel
     {
         public int FlightId { get; set; }
