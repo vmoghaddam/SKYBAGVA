@@ -21,6 +21,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
         $("#ofp-doc").on("click", ".prop", function () {
             $('.prop').removeClass('selected');
             $(this).addClass('selected');
+           // $(this).val(10);
             $scope.propClick($(this).attr('id'), $(this).val());
         });
 
@@ -30,6 +31,22 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
         });
 
         $("#ofp-doc").on("change", ".prop", function () {
+
+            if ($(this).attr('id').includes('_usd_')) {
+                try {
+                    var ofp = $(this).data('ofp');
+                    var diff = Number($(this).val()) - Number(ofp);
+                   
+                    
+                    var diffId = $(this).attr('id').replace('_usd_', '_dusd_');
+                    $('#' + diffId).val(diff);
+                }
+                catch (ex) {
+
+                }
+               
+            }
+
             var prev = $(this).data('val');
             $scope.onBlur($(this).attr('id'), $(this).val(), prev);
         });
@@ -314,63 +331,49 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
         }
     };
     $scope.getPropClass = function (id) {
-        
-        if (id.includes( 'fuel_req'))
+
+        if (id.includes('fuel_req'))
             return 'prop noborder';
         return 'prop';
     };
     $scope.updateValue = function (propId, value) {
         //12-04
-       
+
         if (propId == sobId) {
-            
+
             return;
         }
         var dto = { OFPId: $scope.entity.Id, PropName: propId, User: $rootScope.userTitle };
 
         dto.PropValue = value;
-       // $scope.loadingVisible = true;
+        // $scope.loadingVisible = true;
         flightService.saveOFPProp(dto).then(function (response2) {
 
-           // $scope.loadingVisible = false;
+            // $scope.loadingVisible = false;
 
-            
+
             $scope.fillSOB();
 
             if (propId.includes('_ata_'))
                 $scope.fillETA();
-              
-           
+
+
 
         }, function (err) {
 
-                $scope.loadingVisible = false; General.ShowNotify(JSON.stringify(err), 'error');
+            $scope.loadingVisible = false; General.ShowNotify(JSON.stringify(err), 'error');
         });
     };
     //12-04
     $scope.onBlur = function (propId, value, prev) {
-        //$("#ofp-doc")
-        //    .off("click", ".prop");
-        //$("#ofp-doc")
-        //    .off("change", ".prop");
-        //console.log('propid:  ' + propId);
-       // console.log('old:  ' + prev);
-        //console.log('new:  ' + value);
-        var _v = (value === undefined || (!value && value!==0))?value:  value.toString().replace(/\s/g, '');
-        if ((!_v && _v !== 0) || _v === undefined) { 
+        $scope.updateValue(propId, value);
+        return;
+        var _v = (value === undefined || (!value && value !== 0)) ? value : value.toString().replace(/\s/g, '');
+        if ((!_v && _v !== 0) || _v === undefined) {
             $('#' + propId).val(prev);
             return;
 
-            //General.Confirm("The selected field will be cleared. Are you sure? (Current value: "+prev+")", function (res) {
-            //    if (res) {
-            //        $scope.updateValue(propId, value);
-
-            //    }
-            //    else {
-            //        $('#' + propId).val(prev);
-            //        return;
-            //    }
-            //});
+            
         }
         else {
 
@@ -439,34 +442,35 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
     var crewCId = null;
     var sobId = null;
     $scope.fill = function (data, callback) {
-        data.JPlan = data.JPlan? JSON.parse(data.JPlan):[];
-        data.JAPlan1 = data.JAPlan1? JSON.parse(data.JAPlan1):[];
-        data.JAPlan2 = data.JAPlan2? JSON.parse(data.JAPlan2):[];
-        data.JFuel = data.JFuel? JSON.parse(data.JFuel):[];
+        console.log(data);
+        data.JPlan = data.JPlan ? JSON.parse(data.JPlan) : [];
+        data.JAPlan1 = data.JAPlan1 ? JSON.parse(data.JAPlan1) : [];
+        data.JAPlan2 = data.JAPlan2 ? JSON.parse(data.JAPlan2) : [];
+        data.JFuel = data.JFuel ? JSON.parse(data.JFuel) : [];
 
         try {
-             
+
             var lst = data.JPlan[data.JPlan.length - 1].TTM;
             var mm = _toNum(lst.split(':')[0]) * 60 + _toNum(lst.split(':')[1]);
 
             var _base = $scope.flight.TakeOff ? CreateDate($scope.flight.TakeOff) : CreateDate($scope.flight.STD);
-            
+
             $scope.ETA = new Date(_base.addMinutes(mm));
-            
+
         }
         catch (eer) {
-            
+
         }
 
         $scope.entity = data;
         setTimeout(function () {
             callback();
         }, 100);
-        
+
         //$scope.OFPHtml = $sce.trustAsHtml($scope.entity.TextOutput);
 
         //setTimeout(function () {
-            
+
 
         //    $('#prop_pax_adult').attr('readonly', true).addClass('noborder');
         //    $('#prop_pax_child').attr('readonly', true).addClass('noborder');
@@ -479,7 +483,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
 
         //    var $clear = $("input[id^='prop_clearance']");
         //    $clear.width(600);
-           
+
         //    var $adult = $clear.nextAll('.prop:first');
         //    crewAId = $adult.attr('id');
 
@@ -495,7 +499,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
 
         //}, 100);
 
-         
+
 
 
     };
@@ -506,7 +510,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
             return "";
 
         var result = moment(new Date(dt)).format('HHmm');
-         
+
 
 
         return moment(new Date(dt)).format('HHmm');
@@ -523,12 +527,12 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
     }
 
     $scope.checkSign = function (ofpid, flightid) {
-         
+
         console.log('check sign');
         flightService.getOFPCheckSign(ofpid).then(function (data) {
             if (data && data.JLSignedBy) {
                 $scope.url_sign = signFiles + data.JLSignedBy + ".png";
-                 
+
                 $scope.PIC = data.PIC;
                 $scope.signDate = moment(new Date(data.JLDatePICApproved)).format('YYYY-MM-DD HH:mm');
                 $('#sig_pic_img').attr('src', $scope.url_sign);
@@ -537,8 +541,22 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
             }
         });
     };
-
+    $scope.hold = function (key,index) {
+        
+        var _id = 'prop_' + key + '_ata_' + index;
+        var $elem = $('#' + _id);
+        var dt = new Date();
+        var _val = String(dt.getUTCHours()).padStart(2, '0') + String(dt.getUTCMinutes()).padStart(2, '0');
+        $elem.val(_val);
+        //var prev = $(this).data('val');
+        $scope.onBlur(_id, _val, null);
+    };
     $scope.dr = null;
+    function isNumeric(str) {
+        if (typeof str != "string") return false // we only process strings!  
+        return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+            !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+    }
     $scope.bind = function (callback) {
 
         $scope.entity.FlightId = $scope.tempData.FlightId;
@@ -559,7 +577,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
 
             $scope.loadingVisible = false;
             $scope.loadingVisible = true;
-           
+
             flightService.epGetDRByFlight($scope.entity.FlightId).then(function (resdr) {
                 $scope.loadingVisible = false;
                 if (resdr.Data) {
@@ -572,12 +590,12 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
                 var diff = Math.abs((new Date()).getTime() - (new Date(response.Data.STALocal)).getTime()) / 3600000;
 
                 $scope.flight = response.Data;
-                
+
                 $scope.loadingVisible = true;
 
                 flightService.epGetOFPByFlight($scope.entity.FlightId).then(function (response2) {
                     $scope.isEditable = (diff <= 24);
-                    
+                    console.log('OFP', response2.Data);
                     if (response2.Data && response2.Data.JLSignedBy) {
                         // $scope.isEditable = false;
                         $scope.url_sign = signFiles + response.Data.PICId + ".png";
@@ -623,7 +641,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
                                 }
                                 else {
                                     ////// GET PROPS ///////////////
-
+                                   
                                     $scope.loadingVisible = true;
 
                                     flightService.epGetOFPProps($scope.entity.Id).then(function (response3) {
@@ -642,9 +660,9 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
 
                                             $scope.props = response3.Data;
 
-                                            
 
-                                           
+
+
                                             $('.prop').val('');
 
                                             //9-11
@@ -664,10 +682,31 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
 
                                                 //    sobValue = _d.PropValue;
                                                 //}
-
-
+                                                //console.log(_d.PropName);
+                                                if (_d.PropName == 'prop_fuel_extra') {
+                                                    $('#' + _d.PropName).val($scope.flight.FuelPlanned);
+                                                    $('#' + _d.PropName+'_due').val($scope.flight.ALT3);
+                                                }
+                                                
+                                                    else
                                                 if (_d.PropValue)
                                                     $('#' + _d.PropName).val(_d.PropValue);
+                                                
+                                                if (_d.PropName.includes('_usd_') && isNumeric(_d.PropValue)) {
+                                                     
+                                                    try {
+                                                        var ofp = $('#' + _d.PropName).data('ofp');
+                                                        var diff = Number($('#' + _d.PropName).val()) - Number(ofp);
+
+
+                                                        var diffId = $('#' + _d.PropName).attr('id').replace('_usd_', '_dusd_');
+                                                        $('#' + diffId).val(diff);
+                                                    }
+                                                    catch (ex) {
+
+                                                    }
+
+                                                }
 
                                                 if (_d.PropName == 'prop_fuel_req' && $scope.dr) {
                                                     $('#' + _d.PropName).val($scope.dr.MinFuelRequiredPilotReq);
@@ -742,12 +781,12 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
                                             //        to = new Date(to.addMinutes(_t.value));
                                             //        $('#' + _t.id).val(toTime(to));
                                             //        $('#' + _t.id).attr('readonly', true).addClass('noborder');
-                                                   
+
                                             //    });
                                             //}
                                             $scope.fillETA();
 
-                                            
+
                                             if ($scope.url_sign)
                                                 $('#sig_pic_img').attr('src', $scope.url_sign);
                                             //here
@@ -793,8 +832,8 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
 
 
             }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
-             
-                //end of get dr
+
+            //end of get dr
 
 
         }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
@@ -806,7 +845,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
         var c1 = $('#prop_crew1').val();
         var c2 = $('#prop_crew2').val();
         var c3 = $('#prop_crew3').val();
-        _sob += (c1 ? _toNum(c1) : 0) + (c2 ? _toNum(c2) : 0) + (c3 ? _toNum( c3) : 0);
+        _sob += (c1 ? _toNum(c1) : 0) + (c2 ? _toNum(c2) : 0) + (c3 ? _toNum(c3) : 0);
         $('#prop_sob').val(_sob);
     }
     function time_convert(num) {
@@ -818,7 +857,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
         if ($scope.flight.TakeOff) {
             var tos = moment(CreateDate($scope.flight.TakeOff)).format('HHmm');
             var to = _toNum(tos.substr(0, 2)) * 60 + _toNum(tos.substr(2, 2));
-             
+
             $.each($scope.entity.JPlan, function (_i, _d) {
                 var mm = _toNum(_d.TTM.split(':')[0]) * 60 + _toNum(_d.TTM.split(':')[1]);
 
@@ -833,13 +872,13 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
                     var pre_eta = pre.eta;
                     var pre_ata = $('#prop_' + pre._key + '_ata_' + (_i - 1).toString()).val();
                     var _t = pre_ata ? pre_ata : pre_eta;
-                    
+
                     var _tn = _toNum(_t.substr(0, 2)) * 60 + _toNum(_t.substr(2, 2));
                     _tn += _toNum(_d.TME.split(':')[0]) * 60 + _toNum(_d.TME.split(':')[1]);
                     $('#prop_' + _d._key + '_eta_' + _i).val(time_convert(_tn));
                     _d.eta = time_convert(_tn);
                 }
-               
+
                 //var _base = CreateDate($scope.flight.TakeOff);
                 //var _eta = new Date(_base.addMinutes(mm));
                 // $('#prop_' + _d._key + '_eta_' + _i).val(toTime(_eta));

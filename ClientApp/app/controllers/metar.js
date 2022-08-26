@@ -179,11 +179,13 @@ app.controller('metarController', ['$scope', '$location', 'flightService', 'auth
             return "station";
     };
     $scope.stationClick = function (x) {
-        var index = $scope.selectedStations.indexOf(x);
-        if (index != -1)
-            $scope.selectedStations.splice(index, 1);
-        else
-            $scope.selectedStations.push(x);
+        //var index = $scope.selectedStations.indexOf(x);
+        //if (index != -1)
+        //    $scope.selectedStations.splice(index, 1);
+        //else
+        //    $scope.selectedStations.push(x);
+        $scope.selectedStations = [];
+        $scope.selectedStations.push(x);
 
         $scope.filtered = Enumerable.From($scope.fdp.METAR)
             .Where(function (x) { return $scope.selectedStations.indexOf(x.StationId) != -1; })
@@ -226,7 +228,9 @@ app.controller('metarController', ['$scope', '$location', 'flightService', 'auth
         });
         $scope.stations = Enumerable.From($scope.stations).Distinct().ToArray();
         
-        $scope.selectedStations = Enumerable.From($scope.stations).ToArray();
+        // $scope.selectedStations = Enumerable.From($scope.stations).ToArray();
+        $scope.selectedStations = [];
+        $scope.selectedStations.push(Enumerable.From($scope.stations).FirstOrDefault());
         $scope.filtered = Enumerable.From($scope.fdp.METAR).OrderBy(function (x) { return $scope.stations.indexOf(x.StationId); }).ThenByDescending(function (x) {
             return Number(moment(new Date(x.observation_time)).format('YYMMDDHHmm'));
 

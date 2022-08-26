@@ -795,12 +795,20 @@ app.controller('logAddController', ['$scope', '$location', 'flightService', 'aut
     $scope.takeOffD = "D";
     $scope.landingD = "D";
     $scope.blockOnD = "D";
+    $scope.getNowUTC = function () {
+        var d = new Date();
+        return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), 0));
+    };
     $scope.time_blockoff = {
         type: "time",
         width: '100%',
         pickerType: "rollers",
         displayFormat: "HHmm",
         interval: 15,
+        onOpened: function (e) {
+            
+            
+        },
         onValueChanged: function (arg) {
              
                 return;
@@ -2100,7 +2108,9 @@ app.controller('logAddController', ['$scope', '$location', 'flightService', 'aut
         }
     };
     $scope.fillTime = function (des, src) {
-        $scope[des] = $scope.entity[src];
+        //  $scope[des] = $scope.entity[src];
+        $scope[des] = new Date(moment.utc().getFullYear(), moment.utc().getMonth(), moment.utc().getDate(), moment.utc().getHours(), moment.utc().getMinutes(),0);
+
     };
     var _day = function (dt) {
         return (new Date(dt)).getDate();

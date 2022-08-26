@@ -40,6 +40,19 @@
         width: 90px;
     }
 
+    .prop2 {
+        color: red;
+        font-weight: bold;
+        display: inline-block;
+        min-width: 70px;
+        text-align: center;
+        border-color: limegreen;
+        border-width: 1px;
+        border-style: solid;
+        background: #eee;
+        width: 90px;
+    }
+
         .prop.selected {
             border-color: orange;
         }
@@ -47,7 +60,7 @@
     .noborder {
         border: 1px solid #ccc !important;
         background: #ccc;
-        color:black;
+        color: black;
     }
 
     .alignleft {
@@ -205,18 +218,19 @@
                 <div style="clear:both"></div>
 
                 <!--FUEL-->
-                <table style='border:1px solid #ccc;margin-top:10px;width:50% ' class="pln">
+                <table style='border:1px solid #ccc;margin-top:10px;width:40% ' class="pln col-lg-6">
                     <thead>
                         <tr style='border-bottom:1px solid #ccc;background:#bbb;color:black '>
                             <td style='border-right:1px solid #ccc;text-align:left;width:140px;font-weight:bold;padding:3px 0 3px 5px'>
 
                                 FUEL
                             </td>
-                            <td style='border-right:1px solid #ccc;font-weight:bold'>[KG]</td>
+                            <td style='border-right:1px solid #ccc;font-weight:bold;width:120px'>[KG]</td>
+
+                            <td style='border-right:1px solid #ccc;font-weight:bold;width:70px'>TIME</td>
                             <td style='border-right:1px solid #ccc;font-weight:bold'>
                             </td>
-                            <td style='border-right:1px solid #ccc;font-weight:bold'>TIME</td>
-                            <td style='border-right:1px solid #ccc;font-weight:bold;width:100px'>LMC</td>
+                            <!--<td style='border-right:1px solid #ccc;font-weight:bold;width:100px'>LMC</td>-->
                         </tr>
                     </thead>
                     <tbody>
@@ -224,16 +238,137 @@
                             <td style='border-right:1px solid #ccc;text-align:left;width:140px;font-weight:bold;padding:3px 0 3px 5px'>
                                 {{x.prm}}
                             </td>
-                            <td style='border-right:1px solid #ccc;padding:3px 5px 3px 5px '>{{x.value}}</td>
-                            <td style='border-right:1px solid #ccc; padding:3px 5px 3px 5px'>
-                                <!--<span style="border:1px dotted red;padding:5px;display:inline-block;width:100px">........</span>-->
-                                <input type='text' style="width: 100px;" data-info='_null_' ng-click='propClick($event)' ng-class="getPropClass(x._key)" id='prop_{{x._key}}' />
+                            <td ng-show="x.prm=='EXTRA'" style='border-right:1px solid #ccc;padding:3px 5px 3px 5px '>
+                                <input type='number' style="width: 100px;" data-info='_null_' readonly  class="prop2 noborder" id='prop_{{x._key}}' />
                             </td>
+                            <td ng-show="x.prm!='EXTRA'" style='border-right:1px solid #ccc;padding:3px 5px 3px 5px '>{{x.value}}</td>
+
                             <td style='border-right:1px solid #ccc; padding:3px 5px 3px 5px'>{{_Time(x.time)}}</td>
-                            <td style='border-right:1px solid #ccc; width:100px;padding:3px 5px 3px 5px'></td>
+                            <td style='border-right:1px solid #ccc; padding:3px 5px 3px 5px'>
+
+                                <input type='text' ng-show="x.prm=='EXTRA'" style="width: 100%;" data-info='_null_' readonly   class="prop2 noborder" id='prop_{{x._key}}_due' />
+                            </td>
+                            <!--<td style='border-right:1px solid #ccc; width:100px;padding:3px 5px 3px 5px'></td>-->
                         </tr>
                     </tbody>
                 </table>
+
+                <div style="margin-top:10px;width:58%;padding-right:0" class='col-lg-6'>
+                    <div style="background:#bbb;color:black;padding:5px;">
+                        RVSM CHECK
+                    </div>
+                    <table style="width:100%;border:1px solid #ccc">
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">PHASE</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">TIME</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">L ALT</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">R ALT</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">STBY ALT</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">FL</td>
+
+                        </tr>
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">GND</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_time' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_l' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_r' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_stby' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc"></td>
+
+                        </tr>
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">FLIGHT</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_time' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_l' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_r' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_stby' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_lvl' />
+                            </td>
+
+                        </tr>
+
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">FLIGHT</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_time2' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_l2' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_r2' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_stby2' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_lvl2' />
+                            </td>
+
+                        </tr>
+
+
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">FLIGHT</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_time3' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_l3' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_r3' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_stby3' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_lvl3' />
+                            </td>
+
+                        </tr>
+
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">FLIGHT</td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_time4' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_l4' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_r4' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_stby4' />
+                            </td>
+                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
+                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_lvl4' />
+                            </td>
+
+                        </tr>
+
+
+                    </table>
+                </div>
+                <div style='clear:both'></div>
                 <!--END OF FUEL-->
 
                 <div style="margin-top:20px;margin-bottom:10px;font-weight:bold">
@@ -330,18 +465,38 @@
                                 <div style="font-weight:bold">{{_Time(x.TTM)}}</div>
                             </td>
                             <td style='border-right:1px solid #ccc'>
-                                <input type='text' style="width: 60px !important;" readonly data-info='_null_' ng-click='propClick($event)' class="prop noborder" id='prop_{{x._key}}_eta_{{$index}}' />
-                                /
-                                <input type='text' style="width: 60px !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_ata_{{$index}}' />
+                                <table style="margin:5px auto">
+                                    <tr>
+                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_' ng-click='propClick($event)' class="prop noborder" id='prop_{{x._key}}_eta_{{$index}}' /></td>
+                                        <td> <input type='text' style="width: 60px !important;" data-info='_null_' on-long-press='hold(x._key,$index)' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_ata_{{$index}}' /></td>
+                                    </tr>
+                                    <!--<tr style="height:30px">
+                                        <td></td>
+                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_'   class="prop noborder" id='prop_{{x._key}}_dta_{{$index}}' /></td>
+                                    </tr>-->
+                                </table>
+                                
+                                
+                               
                             </td>
                             <td style='border-right:1px solid #ccc'>
                                 <div style="font-weight:bold">{{x.FRE}}</div>
                                 <div style="font-weight:bold">{{x.FUS}}</div>
                             </td>
                             <td style='border-right:0px solid #ccc'>
-                                <input type='text' style="width: 60px !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_rem_{{$index}}' />
-                                /
-                                <input type='text' style="width: 60px !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_usd_{{$index}}' />
+                                <table style="margin:5px auto">
+                                    <tr>
+                                        <td><input type='text' style="width: 60px !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_rem_{{$index}}' /></td>
+                                        <td><input type='text' style="width: 60px !important;" data-info='_null_' data-ofp="{{x.FUS}}" ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_usd_{{$index}}' /> </td>
+                                    </tr>
+                                    <tr style="height:30px">
+                                        <td></td>
+                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_' class="prop2 noborder" id='prop_{{x._key}}_dusd_{{$index}}' /></td>
+                                    </tr>
+                                </table>
+                                
+                                
+                                
                             </td>
 
                         </tr>
@@ -384,61 +539,8 @@
 
                     </table>
                 </div>
-                <div style="margin-top:10px;">
-                    <div style="background:#bbb;color:black;padding:5px;">
-                        RVSM CHECK
-                    </div>
-                    <table style="width:100%;border:1px solid #ccc">
-                        <tr style="border-bottom:1px solid #ccc">
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">PHASE</td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">TIME</td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">L ALT</td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">R ALT</td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">STBY ALT</td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">FL</td>
 
-                        </tr>
-                        <tr style="border-bottom:1px solid #ccc">
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">GND</td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_time' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_l' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_r' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_gnd_stby' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc"></td>
 
-                        </tr>
-                        <tr style="border-bottom:1px solid #ccc">
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">FLIGHT</td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_time' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_l' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_r' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_stby' />
-                            </td>
-                            <td style="padding:5px;text-align:center; border-right:1px solid #ccc">
-                                <input type='number' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_rvsm_flt_lvl' />
-                            </td>
-
-                        </tr>
-                         
-
-                    </table>
-                </div>
-                
 
 
 
