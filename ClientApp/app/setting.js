@@ -13,10 +13,12 @@ var reportBase = 'http://report.crewpocket.ir/';
 //var clientBase = 'http://app.crewpocket.ir/';
 
 var serviceBase = 'http://fleet.flypersia.aero/apiv2/';
-var serviceBase2 = 'https://localhost:7001/api/';
+//var serviceBase2 = 'https://localhost:7001/api/';
+var serviceBase2 = 'https://localhost:44399/api/';
 //var serviceBase2 = 'https://172.20.10.3:45464/api/';
 //var serviceBase3 = 'https://fbpocket.ir/service/api/';
-var serviceBase3 = 'https://localhost:7001/api/';
+//var serviceBase3 = 'https://localhost:7001/api/';
+var serviceBase3 = 'https://localhost:44399/api/';
 
 var serviceBaseAPI = 'http://localhost:12271/';
 

@@ -2,10 +2,11 @@
 app.factory('mbService', ['$http', '$q', 'ngAuthSettings', '$rootScope', function ($http, $q, ngAuthSettings, $rootScope) {
     var serviceFactory = {};
 
-    var _calLoadSheet = function (entity, flightId) {
+    var _calLoadSheet = function (entity) {
+        console.log(entity);
         var deferred = $q.defer();
 
-        $http.post(mbService + 'save/loadsheet/' + entity.FlightId, entity).then(function (response) {
+        $http.post($rootScope.apiUrl + 'save/loadsheet/' + entity.FlightId, entity).then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
 
@@ -18,11 +19,10 @@ app.factory('mbService', ['$http', '$q', 'ngAuthSettings', '$rootScope', functio
     var _getLimitation = function (registerId) {
 
         var deferred = $q.defer();
-        $http.get($rootScope.apiUrl + 'get/limitation/'+ registerId).then(function (response)
-        {
+        $http.get($rootScope.apiUrl + 'get/limitation/' + registerId).then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
-                deferred.reject(Exceptions.getMessage(err));
+            deferred.reject(Exceptions.getMessage(err));
         })
 
         return deferred.promise;
@@ -46,7 +46,7 @@ app.factory('mbService', ['$http', '$q', 'ngAuthSettings', '$rootScope', functio
         var deferred = $q.defer();
         entity.IsSynced = 1;
         console.log(entity);
-       // entity.DateUpdate = momentUtcNowString();
+        // entity.DateUpdate = momentUtcNowString();
         db.Put('Loadsheet', entity.FlightId, entity, function (row) {
             if ($rootScope.getOnlineStatus()) {
 
