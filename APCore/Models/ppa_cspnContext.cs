@@ -508,6 +508,7 @@ namespace APCore.Models
         public virtual DbSet<ViewAirport> ViewAirports { get; set; }
         public virtual DbSet<ViewApplicableCourse> ViewApplicableCourses { get; set; }
         public virtual DbSet<ViewApplicableCoursePerson> ViewApplicableCoursePeople { get; set; }
+        public virtual DbSet<ViewAssignGrid> ViewAssignGrids { get; set; }
         public virtual DbSet<ViewBirdStrikeCAO> ViewBirdStrikeCAOs { get; set; }
         public virtual DbSet<ViewBoardSummary> ViewBoardSummaries { get; set; }
         public virtual DbSet<ViewBook> ViewBooks { get; set; }
@@ -715,6 +716,7 @@ namespace APCore.Models
         public virtual DbSet<ViewLibraryFolder> ViewLibraryFolders { get; set; }
         public virtual DbSet<ViewLoadsheet> ViewLoadsheets { get; set; }
         public virtual DbSet<ViewLocation> ViewLocations { get; set; }
+        public virtual DbSet<ViewMB> ViewMBs { get; set; }
         public virtual DbSet<ViewMSN> ViewMSNs { get; set; }
         public virtual DbSet<ViewMandatoryCourse> ViewMandatoryCourses { get; set; }
         public virtual DbSet<ViewMandatoryCourseAll> ViewMandatoryCourseAlls { get; set; }
@@ -792,6 +794,7 @@ namespace APCore.Models
         public virtual DbSet<XLSFLT> XLSFLTs { get; set; }
         public virtual DbSet<_CSPN> _CSPNs { get; set; }
         public virtual DbSet<_CabinJSON> _CabinJSONs { get; set; }
+        public virtual DbSet<_Crew30> _Crew30s { get; set; }
         public virtual DbSet<_CrewsJSON> _CrewsJSONs { get; set; }
         public virtual DbSet<_DayGP> _DayGPs { get; set; }
         public virtual DbSet<_DayGPTest> _DayGPTests { get; set; }
@@ -815,6 +818,7 @@ namespace APCore.Models
         public virtual DbSet<_ViewFDP> _ViewFDPs { get; set; }
         public virtual DbSet<_ViewFlightsGantt> _ViewFlightsGantts { get; set; }
         public virtual DbSet<_ViewLegTime> _ViewLegTimes { get; set; }
+        public virtual DbSet<_ViewZTRN> _ViewZTRNs { get; set; }
         public virtual DbSet<_WeatherTafADD> _WeatherTafADDs { get; set; }
         public virtual DbSet<_XCREW> _XCREWs { get; set; }
         public virtual DbSet<_XFDP> _XFDPs { get; set; }
@@ -825,6 +829,11 @@ namespace APCore.Models
         public virtual DbSet<_XLEGASSIGN> _XLEGASSIGNs { get; set; }
         public virtual DbSet<_XLS2> _XLS2s { get; set; }
         public virtual DbSet<_XML> _XMLs { get; set; }
+        public virtual DbSet<_ZCREW> _ZCREWs { get; set; }
+        public virtual DbSet<_ZDuty> _ZDuties { get; set; }
+        public virtual DbSet<_ZDuty2> _ZDuty2s { get; set; }
+        public virtual DbSet<_ZTraining> _ZTrainings { get; set; }
+        public virtual DbSet<_ZTrainingCourse> _ZTrainingCourses { get; set; }
         public virtual DbSet<__MigrationHistory> __MigrationHistories { get; set; }
         public virtual DbSet<_dool> _dools { get; set; }
         public virtual DbSet<_fsg> _fsgs { get; set; }
@@ -1258,11 +1267,11 @@ namespace APCore.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.ALT5)
-                    .HasMaxLength(255)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ATCPlan)
-                    .HasMaxLength(1000)
+                    .HasMaxLength(3000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ATL)
@@ -1307,6 +1316,10 @@ namespace APCore.Models
                     .IsRequired()
                     .HasMaxLength(1000);
 
+                entity.Property(e => e.FPFuel).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.FPTripFuel).HasColumnType("decimal(18, 4)");
+
                 entity.Property(e => e.FlightNumber).HasMaxLength(50);
 
                 entity.Property(e => e.FlightStatus)
@@ -1316,6 +1329,8 @@ namespace APCore.Models
                 entity.Property(e => e.FromAirportIATA).HasMaxLength(255);
 
                 entity.Property(e => e.FuelDensity).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.FuelPlanned).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.FuelRemaining).HasColumnType("decimal(18, 4)");
 
@@ -1812,7 +1827,7 @@ namespace APCore.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.ATCPlan)
-                    .HasMaxLength(1000)
+                    .HasMaxLength(3000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ATL)
@@ -1889,6 +1904,8 @@ namespace APCore.Models
 
                 entity.Property(e => e.FuelDensity).HasColumnType("decimal(18, 4)");
 
+                entity.Property(e => e.FuelPlanned).HasColumnType("decimal(18, 4)");
+
                 entity.Property(e => e.FuelRemaining).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.FuelTotal).HasColumnType("decimal(19, 4)");
@@ -1900,7 +1917,8 @@ namespace APCore.Models
                 entity.Property(e => e.IPName).HasMaxLength(1001);
 
                 entity.Property(e => e.IPScheduleName)
-                    .HasMaxLength(500)
+                    .IsRequired()
+                    .HasMaxLength(1)
                     .IsUnicode(false);
 
                 entity.Property(e => e.JLApprover).HasMaxLength(1001);
@@ -1938,13 +1956,15 @@ namespace APCore.Models
                 entity.Property(e => e.P1Name).HasMaxLength(1001);
 
                 entity.Property(e => e.P1ScheduleName)
-                    .HasMaxLength(500)
+                    .IsRequired()
+                    .HasMaxLength(1)
                     .IsUnicode(false);
 
                 entity.Property(e => e.P2Name).HasMaxLength(1001);
 
                 entity.Property(e => e.P2ScheduleName)
-                    .HasMaxLength(500)
+                    .IsRequired()
+                    .HasMaxLength(1)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PF)
@@ -2009,19 +2029,22 @@ namespace APCore.Models
                 entity.Property(e => e.IPName).HasMaxLength(1001);
 
                 entity.Property(e => e.IPScheduleName)
-                    .HasMaxLength(500)
+                    .IsRequired()
+                    .HasMaxLength(1)
                     .IsUnicode(false);
 
                 entity.Property(e => e.P1Name).HasMaxLength(1001);
 
                 entity.Property(e => e.P1ScheduleName)
-                    .HasMaxLength(500)
+                    .IsRequired()
+                    .HasMaxLength(1)
                     .IsUnicode(false);
 
                 entity.Property(e => e.P2Name).HasMaxLength(1001);
 
                 entity.Property(e => e.P2ScheduleName)
-                    .HasMaxLength(500)
+                    .IsRequired()
+                    .HasMaxLength(1)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PIC).HasMaxLength(1001);
@@ -5961,7 +5984,7 @@ namespace APCore.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.ATCPlan)
-                    .HasMaxLength(1000)
+                    .HasMaxLength(3000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ATL)
@@ -17309,6 +17332,94 @@ namespace APCore.Models
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<ViewAssignGrid>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("ViewAssignGrid");
+
+                entity.Property(e => e.DutyTypeTitle)
+                    .IsRequired()
+                    .HasMaxLength(1000);
+
+                entity.Property(e => e.EndLocal).HasColumnType("datetime");
+
+                entity.Property(e => e.FirstName)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.InitEnd).HasColumnType("datetime");
+
+                entity.Property(e => e.InitFlights)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitFlts)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitFromIATA)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitGroup)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitKey)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitNo)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitRank)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitRoute)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InitStart).HasColumnType("datetime");
+
+                entity.Property(e => e.JobGroup).HasMaxLength(500);
+
+                entity.Property(e => e.JobGroup2)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.JobGroupCode)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Key)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastName)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.MaxFDP).HasColumnType("decimal(10, 5)");
+
+                entity.Property(e => e.Rank).HasMaxLength(1000);
+
+                entity.Property(e => e.Remark)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Remark2).HasMaxLength(500);
+
+                entity.Property(e => e.ScheduleName)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StartLocal).HasColumnType("datetime");
+            });
+
             modelBuilder.Entity<ViewBirdStrikeCAO>(entity =>
             {
                 entity.HasNoKey();
@@ -21795,7 +21906,9 @@ namespace APCore.Models
 
                 entity.Property(e => e.DSPNID).HasMaxLength(500);
 
-                entity.Property(e => e.DSPName).HasMaxLength(1001);
+                entity.Property(e => e.DSPName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.DSPPID).HasMaxLength(500);
 
@@ -21821,6 +21934,12 @@ namespace APCore.Models
 
                 entity.Property(e => e.IPADDSPRemark).HasMaxLength(1000);
 
+                entity.Property(e => e.JLDatePICApproved).HasColumnType("datetime");
+
+                entity.Property(e => e.JLSignedBy)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.JeppesenAirwayManualCPTRemark).HasMaxLength(1000);
 
                 entity.Property(e => e.JeppesenAirwayManualDSPRemark).HasMaxLength(1000);
@@ -21831,8 +21950,6 @@ namespace APCore.Models
 
                 entity.Property(e => e.MinFuelRequiredPilotReq).HasColumnType("decimal(18, 0)");
 
-                entity.Property(e => e.MinFuelRequiredSFP).HasColumnType("decimal(18, 0)");
-
                 entity.Property(e => e.NotamCPTRemark).HasMaxLength(1000);
 
                 entity.Property(e => e.NotamDSPRemark).HasMaxLength(1000);
@@ -21840,6 +21957,10 @@ namespace APCore.Models
                 entity.Property(e => e.OperationEngineeringCPTRemark).HasMaxLength(1000);
 
                 entity.Property(e => e.OperationEngineeringDSPRemark).HasMaxLength(1000);
+
+                entity.Property(e => e.PIC)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.PIFCPTRemark).HasMaxLength(1000);
 
@@ -28061,6 +28182,12 @@ namespace APCore.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
+                entity.Property(e => e.ManagerFullCode2)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ManagerTitle).HasMaxLength(500);
+
                 entity.Property(e => e.Parent).HasMaxLength(500);
 
                 entity.Property(e => e.ParentCode)
@@ -28790,6 +28917,53 @@ namespace APCore.Models
                 entity.Property(e => e.Website)
                     .HasMaxLength(500)
                     .UseCollation("SQL_Latin1_General_CP1_CI_AS");
+            });
+
+            modelBuilder.Entity<ViewMB>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("ViewMB");
+
+                entity.Property(e => e.CARGO).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.DLI).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.DOI).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.FPFuel).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.FPTripFuel).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.FlightNumber).HasMaxLength(50);
+
+                entity.Property(e => e.FromAirport).HasMaxLength(255);
+
+                entity.Property(e => e.LILNW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.LITOW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.LIZFW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.LNW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.MACLNW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.MACTOW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.MACZFW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.PantryCode).HasMaxLength(1);
+
+                entity.Property(e => e.Register)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.TOW).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.ToAirport).HasMaxLength(255);
+
+                entity.Property(e => e.ZFW).HasColumnType("decimal(18, 4)");
             });
 
             modelBuilder.Entity<ViewMSN>(entity =>
@@ -31874,6 +32048,139 @@ namespace APCore.Models
                 entity.Property(e => e.WhatsApp).HasMaxLength(255);
             });
 
+            modelBuilder.Entity<_Crew30>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("_Crew30");
+
+                entity.Property(e => e.ACType).HasMaxLength(255);
+
+                entity.Property(e => e.Active).HasMaxLength(255);
+
+                entity.Property(e => e.Additional).HasMaxLength(255);
+
+                entity.Property(e => e.Address).HasMaxLength(255);
+
+                entity.Property(e => e.AddressRegion).HasMaxLength(255);
+
+                entity.Property(e => e.BaseStation).HasMaxLength(255);
+
+                entity.Property(e => e.BirthDate).HasMaxLength(255);
+
+                entity.Property(e => e.BirthPlace).HasMaxLength(255);
+
+                entity.Property(e => e.BoxNo).HasMaxLength(255);
+
+                entity.Property(e => e.CMCExpire).HasMaxLength(255);
+
+                entity.Property(e => e.CellPhone).HasMaxLength(255);
+
+                entity.Property(e => e.Code).HasMaxLength(255);
+
+                entity.Property(e => e.CrewType).HasMaxLength(255);
+
+                entity.Property(e => e.DigitCode).HasMaxLength(255);
+
+                entity.Property(e => e.Email).HasMaxLength(255);
+
+                entity.Property(e => e.EmployeeNo).HasMaxLength(255);
+
+                entity.Property(e => e.FLName).HasMaxLength(255);
+
+                entity.Property(e => e.FName).HasMaxLength(255);
+
+                entity.Property(e => e.FScheduleName).HasMaxLength(255);
+
+                entity.Property(e => e.Faddress).HasMaxLength(255);
+
+                entity.Property(e => e.FatherName).HasMaxLength(255);
+
+                entity.Property(e => e.Fax).HasMaxLength(255);
+
+                entity.Property(e => e.Ffname).HasMaxLength(255);
+
+                entity.Property(e => e.Gender).HasMaxLength(255);
+
+                entity.Property(e => e.HireDate).HasMaxLength(255);
+
+                entity.Property(e => e.Id).HasMaxLength(255);
+
+                entity.Property(e => e.IdNo).HasMaxLength(255);
+
+                entity.Property(e => e.InstructorType).HasMaxLength(255);
+
+                entity.Property(e => e.JobPosition).HasMaxLength(255);
+
+                entity.Property(e => e.JobShift).HasMaxLength(255);
+
+                entity.Property(e => e.L4Expire).HasMaxLength(255);
+
+                entity.Property(e => e.LName).HasMaxLength(255);
+
+                entity.Property(e => e.LastDoctor).HasMaxLength(255);
+
+                entity.Property(e => e.LastFltTime).HasMaxLength(255);
+
+                entity.Property(e => e.LicenceExpire).HasMaxLength(255);
+
+                entity.Property(e => e.LicenceNo).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalAudio).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalCheckup).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalECG).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalExpire).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalHistory).HasMaxLength(255);
+
+                entity.Property(e => e.MultiType).HasMaxLength(255);
+
+                entity.Property(e => e.NationalNo).HasMaxLength(255);
+
+                entity.Property(e => e.Native).HasMaxLength(255);
+
+                entity.Property(e => e.PassportExpire).HasMaxLength(255);
+
+                entity.Property(e => e.PassportNo).HasMaxLength(255);
+
+                entity.Property(e => e.Phone).HasMaxLength(255);
+
+                entity.Property(e => e.ProductiveDate).HasMaxLength(255);
+
+                entity.Property(e => e.ProficiencyExpire).HasMaxLength(255);
+
+                entity.Property(e => e.RampPassExpire).HasMaxLength(255);
+
+                entity.Property(e => e.RampPassNo).HasMaxLength(255);
+
+                entity.Property(e => e.ScheduleName).HasMaxLength(255);
+
+                entity.Property(e => e.Seniority).HasMaxLength(255);
+
+                entity.Property(e => e.SetGroup).HasMaxLength(255);
+
+                entity.Property(e => e.Simulator8MonthCheck).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorAnnual).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorAnnualCheck).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorLastCheck).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorNextCheck).HasMaxLength(255);
+
+                entity.Property(e => e.Skill).HasMaxLength(255);
+
+                entity.Property(e => e.Training_Seat_Los).HasMaxLength(255);
+
+                entity.Property(e => e.Training_Seat_Rev).HasMaxLength(255);
+
+                entity.Property(e => e.Training_Seat_Tre_).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<_CrewsJSON>(entity =>
             {
                 entity.HasNoKey();
@@ -33749,6 +34056,29 @@ namespace APCore.Models
                 entity.Property(e => e.to).HasMaxLength(255);
             });
 
+            modelBuilder.Entity<_ViewZTRN>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("_ViewZTRN");
+
+                entity.Property(e => e.CourseType)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Crew).HasMaxLength(255);
+
+                entity.Property(e => e.CrewType).HasMaxLength(255);
+
+                entity.Property(e => e.Expire).HasColumnType("datetime");
+
+                entity.Property(e => e.Issue).HasMaxLength(255);
+
+                entity.Property(e => e.ScheduleName).HasMaxLength(255);
+
+                entity.Property(e => e.StartDate).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<_WeatherTafADD>(entity =>
             {
                 entity.ToTable("_WeatherTafADDS");
@@ -34479,6 +34809,273 @@ namespace APCore.Models
                 entity.Property(e => e.TRNTime).HasMaxLength(255);
 
                 entity.Property(e => e.TakeOff).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<_ZCREW>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("_ZCREW");
+
+                entity.Property(e => e.ACType).HasMaxLength(255);
+
+                entity.Property(e => e.Active).HasMaxLength(255);
+
+                entity.Property(e => e.Additional).HasMaxLength(255);
+
+                entity.Property(e => e.Address).HasMaxLength(255);
+
+                entity.Property(e => e.AddressRegion).HasMaxLength(255);
+
+                entity.Property(e => e.BaseStation).HasMaxLength(255);
+
+                entity.Property(e => e.BirthDate).HasMaxLength(255);
+
+                entity.Property(e => e.BirthPlace).HasMaxLength(255);
+
+                entity.Property(e => e.BoxNo).HasMaxLength(255);
+
+                entity.Property(e => e.CMCExpire).HasMaxLength(255);
+
+                entity.Property(e => e.CellPhone).HasMaxLength(255);
+
+                entity.Property(e => e.Code).HasMaxLength(255);
+
+                entity.Property(e => e.CrewType).HasMaxLength(255);
+
+                entity.Property(e => e.DigitCode).HasMaxLength(255);
+
+                entity.Property(e => e.Email).HasMaxLength(255);
+
+                entity.Property(e => e.EmployeeNo).HasMaxLength(255);
+
+                entity.Property(e => e.FLName).HasMaxLength(255);
+
+                entity.Property(e => e.FName).HasMaxLength(255);
+
+                entity.Property(e => e.FScheduleName).HasMaxLength(255);
+
+                entity.Property(e => e.Faddress).HasMaxLength(255);
+
+                entity.Property(e => e.FatherName).HasMaxLength(255);
+
+                entity.Property(e => e.Fax).HasMaxLength(255);
+
+                entity.Property(e => e.Ffname).HasMaxLength(255);
+
+                entity.Property(e => e.Gender).HasMaxLength(255);
+
+                entity.Property(e => e.HireDate).HasMaxLength(255);
+
+                entity.Property(e => e.Id).HasMaxLength(255);
+
+                entity.Property(e => e.IdNo).HasMaxLength(255);
+
+                entity.Property(e => e.InstructorType).HasMaxLength(255);
+
+                entity.Property(e => e.JobPosition).HasMaxLength(255);
+
+                entity.Property(e => e.JobShift).HasMaxLength(255);
+
+                entity.Property(e => e.L4Expire).HasMaxLength(255);
+
+                entity.Property(e => e.LName).HasMaxLength(255);
+
+                entity.Property(e => e.LastDoctor).HasMaxLength(255);
+
+                entity.Property(e => e.LastFltTime).HasMaxLength(255);
+
+                entity.Property(e => e.LicenceExpire).HasMaxLength(255);
+
+                entity.Property(e => e.LicenceNo).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalAudio).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalCheckup).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalECG).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalExpire).HasMaxLength(255);
+
+                entity.Property(e => e.MedicalHistory).HasMaxLength(255);
+
+                entity.Property(e => e.MultiType).HasMaxLength(255);
+
+                entity.Property(e => e.NationalNo).HasMaxLength(255);
+
+                entity.Property(e => e.Native).HasMaxLength(255);
+
+                entity.Property(e => e.PassportExpire).HasMaxLength(255);
+
+                entity.Property(e => e.PassportNo).HasMaxLength(255);
+
+                entity.Property(e => e.Phone).HasMaxLength(255);
+
+                entity.Property(e => e.ProductiveDate).HasMaxLength(255);
+
+                entity.Property(e => e.ProficiencyExpire).HasMaxLength(255);
+
+                entity.Property(e => e.RampPassExpire).HasMaxLength(255);
+
+                entity.Property(e => e.RampPassNo).HasMaxLength(255);
+
+                entity.Property(e => e.ScheduleName).HasMaxLength(255);
+
+                entity.Property(e => e.Seniority).HasMaxLength(255);
+
+                entity.Property(e => e.SetGroup).HasMaxLength(255);
+
+                entity.Property(e => e.Simulator8MonthCheck).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorAnnual).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorAnnualCheck).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorLastCheck).HasMaxLength(255);
+
+                entity.Property(e => e.SimulatorNextCheck).HasMaxLength(255);
+
+                entity.Property(e => e.Skill).HasMaxLength(255);
+
+                entity.Property(e => e.Training_Seat_Los).HasMaxLength(255);
+
+                entity.Property(e => e.Training_Seat_Rev).HasMaxLength(255);
+
+                entity.Property(e => e.Training_Seat_Tre_).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<_ZDuty>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("_ZDuty");
+
+                entity.Property(e => e.ACType).HasMaxLength(255);
+
+                entity.Property(e => e.Act).HasMaxLength(255);
+
+                entity.Property(e => e.Crew).HasMaxLength(255);
+
+                entity.Property(e => e.Description).HasMaxLength(255);
+
+                entity.Property(e => e.Finish).HasMaxLength(255);
+
+                entity.Property(e => e.FinishActual).HasMaxLength(255);
+
+                entity.Property(e => e.Id).HasMaxLength(255);
+
+                entity.Property(e => e.LName).HasMaxLength(255);
+
+                entity.Property(e => e.Param1).HasMaxLength(255);
+
+                entity.Property(e => e.Param2).HasMaxLength(255);
+
+                entity.Property(e => e.Param3).HasMaxLength(255);
+
+                entity.Property(e => e.ScheduleGroup).HasMaxLength(255);
+
+                entity.Property(e => e.Scheduler).HasMaxLength(255);
+
+                entity.Property(e => e.SetGroup).HasMaxLength(255);
+
+                entity.Property(e => e.Start).HasMaxLength(255);
+
+                entity.Property(e => e.StartActual).HasMaxLength(255);
+
+                entity.Property(e => e.UpdateTime).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<_ZDuty2>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("_ZDuty2");
+
+                entity.Property(e => e.ACType).HasMaxLength(255);
+
+                entity.Property(e => e.Act).HasMaxLength(255);
+
+                entity.Property(e => e.Crew).HasMaxLength(255);
+
+                entity.Property(e => e.Description).HasMaxLength(255);
+
+                entity.Property(e => e.Finish).HasMaxLength(255);
+
+                entity.Property(e => e.FinishActual).HasMaxLength(255);
+
+                entity.Property(e => e.Id).HasMaxLength(255);
+
+                entity.Property(e => e.LName).HasMaxLength(255);
+
+                entity.Property(e => e.Param1).HasMaxLength(255);
+
+                entity.Property(e => e.Param2).HasMaxLength(255);
+
+                entity.Property(e => e.Param3).HasMaxLength(255);
+
+                entity.Property(e => e.ScheduleGroup).HasMaxLength(255);
+
+                entity.Property(e => e.Scheduler).HasMaxLength(255);
+
+                entity.Property(e => e.SetGroup).HasMaxLength(255);
+
+                entity.Property(e => e.Start).HasMaxLength(255);
+
+                entity.Property(e => e.StartActual).HasMaxLength(255);
+
+                entity.Property(e => e.UpdateTime).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<_ZTraining>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("_ZTraining");
+
+                entity.Property(e => e.ACType).HasMaxLength(255);
+
+                entity.Property(e => e.CourseName).HasMaxLength(255);
+
+                entity.Property(e => e.CourseType)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Crew).HasMaxLength(255);
+
+                entity.Property(e => e.CrewType).HasMaxLength(255);
+
+                entity.Property(e => e.Date).HasMaxLength(255);
+
+                entity.Property(e => e.Grade).HasMaxLength(255);
+
+                entity.Property(e => e.ScheduleName).HasMaxLength(255);
+
+                entity.Property(e => e.StartDate).HasMaxLength(255);
+
+                entity.Property(e => e.Teacher).HasMaxLength(255);
+            });
+
+            modelBuilder.Entity<_ZTrainingCourse>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("_ZTrainingCourse");
+
+                entity.Property(e => e.CourseDescription).HasMaxLength(255);
+
+                entity.Property(e => e.CourseKind).HasMaxLength(255);
+
+                entity.Property(e => e.CourseTitle).HasMaxLength(255);
+
+                entity.Property(e => e.CrewJob).HasMaxLength(255);
+
+                entity.Property(e => e.ISARP).HasMaxLength(255);
+
+                entity.Property(e => e.OwerRef).HasMaxLength(255);
+
+                entity.Property(e => e.Recurrent).HasMaxLength(255);
+
+                entity.Property(e => e.Warnning).HasMaxLength(255);
             });
 
             modelBuilder.Entity<__MigrationHistory>(entity =>

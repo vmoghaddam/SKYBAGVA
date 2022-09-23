@@ -217,7 +217,8 @@ namespace APCore.Services
         public async Task<DataResponse> GetFlightCommanders(int flightId)
         {
 
-            var crews = await _context.ViewFlightCrewNewXes.Where(q => q.FlightId == flightId && q.IsPositioning == false && (q.PositionId == 1160 || q.PositionId == 1161 || q.PositionId == 12000)).OrderBy(q => q.GroupOrder).ToListAsync();
+            var crews = await _context.ViewFlightCrewNewXes.Where(q => q.FlightId == flightId && q.IsPositioning == false && (q.PositionId == 1023)).OrderBy(q => q.GroupOrder).ToListAsync();
+            //var crews = await _context.ViewFlightCrewNewXes.Where(q => q.FlightId == flightId && q.IsPositioning == false && (q.PositionId == 1160 || q.PositionId == 1161 || q.PositionId == 12000)).OrderBy(q => q.GroupOrder).ToListAsync();
 
             return new DataResponse
             {
@@ -608,6 +609,24 @@ namespace APCore.Services
                     }
                     else
                         return new DataResponse { IsSuccess = true, Data = null };
+                case "mb":
+                    var mb = await _context.FlightInformations.SingleOrDefaultAsync(q => q.ID == flightId);
+                    if (mb != null)
+                    {
+                        mb.JLSignedBy = user;
+                        mb.JLDatePICApproved = DateTime.UtcNow;
+                        mb.PICId = pic;
+                        mb.PIC = picStr;
+                        var saveResult4 = await _context.SaveAsync();
+                        if (saveResult4.Succeed)
+                            return new DataResponse() { IsSuccess = true, Data = new {mb.ID, mb.PICId, mb.JLSignedBy, mb.JLDatePICApproved, mb.PIC } };
+                        else
+                            return new DataResponse() { IsSuccess = false };
+                    }
+                    else
+                        return new DataResponse { IsSuccess = true, Data = null };
+
+
                 default:
                     return new DataResponse { IsSuccess = true, Data = null };
             }

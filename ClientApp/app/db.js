@@ -6,7 +6,7 @@ db.getDb = function () {
     return _db;
 };
 db.Init = function () {
-    _db.version(350).stores({
+    _db.version(352).stores({
         AppCrewFlights: "Id,FlightId,CrewId,FDPId,FDPItemId,DutyType,IsPositioning,PositionId,Position,FlightNumber,STDDay,FlightStatusId,Register,RegisterId,FromAirportIATA,ToAirportIATA,STD,STA,BlockOff,BlockOn,TakeOff,Landing,IStart,IsSynced",
         FlightCrews: "[CrewId+FlightId],FDPItemId,FDPId",
         Calendar: "[Id+Date],DateStart,Legs,Sectors,DutyType,DutyTypeTitle,Year,Month,Day",
@@ -37,8 +37,8 @@ db.Init = function () {
         LibFile: "Id,BookId",
 
         //Loadsheet: "ID,CARGO,CPT1,CPT2,CPT3,CPT4,Cabin,DLI,DOI,DOW,FM,FPFuel,FPTripFuel,FSO,LILNW,LITOW,LIZFW,LNW,MACLNW,MACTOW,MACZFW,MAXTOW,OASec,OBSec,OCSec,ODSec,PantryCode,PaxAdult,PaxChild,PaxInfant,Pilot,StabTrimFifteen,StabTrimFive,TOW,TTL,ZFW",
-        Loadsheet: "FlightId,cpt1,cpt2,cpt3,cpt4,oa,ob,oc,od,fm,fso,adult,child,infant,pilot,cabin,maxtow,pantryCode",
-
+        //Loadsheet: "FlightId,cpt1,cpt2,cpt3,cpt4,oa,ob,oc,od,fm,fso,adult,child,infant,pilot,cabin,maxtow,pantryCode",
+        Loadsheet: "FlightId, IsSynced",
         SeenHistory1: "[FlightId+Type]",
 
         Doc: "[FDPId+FlightId+Type]",
@@ -129,15 +129,15 @@ db.GetNOTAMCollection = function (fdpId) {
     return collection;
 };
 
-db.GetLoadsheetCollection = function (fdpId) {
+//db.GetLoadsheetCollection = function (fdpId) {
 
-    var collection = _db.Loadsheet
-        .filter(function (rec) {
-            return rec.ID == fdpId;
-        });
+//    var collection = _db.Loadsheet
+//        .filter(function (rec) {
+//            return rec.ID == fdpId;
+//        });
 
-    return collection;
-};
+//    return collection;
+//};
 
 
 
@@ -167,14 +167,14 @@ db.GetNOTAMs = function (fdpId, callback) {
     });
 };
 
-db.GetLoadsheet = function (fdpId, callback) {
-    var collection = db.GetLoadsheetCollection(fdpId);
-    collection.toArray().then(function (arg) {
+//db.GetLoadsheet = function (fdpId, callback) {
+//    var collection = db.GetLoadsheetCollection(fdpId);
+//    collection.toArray().then(function (arg) {
 
 
-        callback(arg);
-    });
-};
+//        callback(arg);
+//    });
+//};
 
 db.GetASRByFlightCollection = function (flightId) {
 
@@ -448,6 +448,11 @@ db.GetAppFlightCrew = function (fid) {
     //});
 
 };
+
+db.GetLoadsheet = function (fid) {
+    return _db.Loadsheet.get(fid);
+}
+
 db.GetAppCrewFlightsByDates = function (df, dt, callback) {
     var collection = db.GetAppCrewFlightsByDatesCollection(df, dt);
     collection.toArray().then(function (arg) { callback(arg); });
@@ -521,6 +526,8 @@ db.Update = function (table, key, changes, callback) {
 };
 
 db.Put = function (table, key, item, callback) {
+
+    console.log(table, key, item);
 
     _db[table].put(item, key).then(function (upd) {
         _db[table].get(key).then(function (row) {

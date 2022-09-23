@@ -42,7 +42,9 @@ namespace APCore.Services
             if (entity == null)
                 return new DataResponse() { IsSuccess = false, Data = "There is no flight" };
 
-            // FlightInformation entity = new FlightInformation();
+
+
+
 
             var pantries = _context.MBPantryIndices.Where(q => q.RegisterID == entity.RegisterID).ToList();
             var indexs = _context.MBAircraftIndices.FirstOrDefault(q => q.RegisterId == entity.RegisterID);
@@ -51,7 +53,7 @@ namespace APCore.Services
 
             for (int i = 0; i < pantries.Count(); i++)
             {
-                if (pantries[i].CockpitCrew == Convert.ToInt32(dto.pilot) && pantries[i].CabinCrew == Convert.ToInt32(dto.cabin) && pantries[i].PantryCode == Convert.ToString(dto.pantryCode))
+                if (pantries[i].CockpitCrew == Convert.ToInt32(dto.Pilot) && pantries[i].CabinCrew == Convert.ToInt32(dto.Cabin) && pantries[i].PantryCode == Convert.ToString(dto.PantryCode))
                 {
                     entity.DOW = pantries[i].DOW;
                     entity.DOI = pantries[i].DOI;
@@ -59,33 +61,31 @@ namespace APCore.Services
                 }
             }
 
-            entity.CARGO = dto.cpt1 + dto.cpt2 + dto.cpt3 + dto.cpt4;
-            entity.PantryCode = dto.pantryCode;
-            entity.CPT1 = dto.cpt1;
-            entity.CPT2 = dto.cpt2;
-            entity.CPT3 = dto.cpt3;
-            entity.CPT4 = dto.cpt4;
-            entity.OASec = dto.oa;
-            entity.OBSec = dto.ob;
-            entity.OCSec = dto.oc;
-            entity.ODSec = dto.od;
-            entity.FSO = dto.fso;
-            entity.FM = dto.fm;
-            entity.MAXTOW = dto.maxtow;
-            entity.PaxAdult = dto.adult;
-            entity.PaxChild = dto.child;
-            entity.PaxInfant = dto.infant;
-            entity.Pilot = dto.pilot;
-            entity.Cabin = dto.cabin;
-            entity.TTL = ((dto.adult + dto.fm + dto.fso) * 84) + (dto.child * 35) + entity.CARGO;
+            entity.CARGO = dto.CARGO;
+            entity.PantryCode = dto.PantryCode;
+            entity.CPT1 = dto.CPT1;
+            entity.CPT2 = dto.CPT2;
+            entity.CPT3 = dto.CPT3;
+            entity.CPT4 = dto.CPT4;
+            entity.OASec = dto.OASec;
+            entity.OBSec = dto.OBSec;
+            entity.OCSec = dto.OCSec;
+            entity.ODSec = dto.ODSec;
+            entity.FSO = dto.FSO;
+            entity.FM = dto.FM;
+            entity.MAXTOW = dto.MAXTOW;
+            entity.PaxAdult = dto.PaxAdult;
+            entity.PaxChild = dto.PaxChild;
+            entity.PaxInfant = dto.PaxInfant;
+            entity.Pilot = dto.Pilot;
+            entity.Cabin = dto.Cabin;
+            entity.TTL = ((dto.PaxAdult + dto.FM + dto.FSO) * 84) + (dto.PaxChild * 35) + entity.CARGO;
             entity.ZFW = entity.TTL + entity.DOW;
-            //entity.FPFuel = dto.toFuel;
-            //entity.FPTripFuel = dto.tiFuel;
             entity.TOW = entity.ZFW + entity.FPFuel;
             entity.LNW = entity.TOW - entity.FPTripFuel;
 
-            var cabinIndex = (dto.oa * indexs.OASec + dto.ob * indexs.OBSec + dto.oc * indexs.OCSec + dto.od * indexs.ODSec) * 84;
-            var cargoIndex = dto.cpt1 * indexs.CPT1 + dto.cpt2 * indexs.CPT2 + dto.cpt3 * indexs.CPT3 + dto.cpt4 * indexs.CPT4;
+            var cabinIndex = (dto.OASec * indexs.OASec + dto.OBSec * indexs.OBSec + dto.OCSec * indexs.OCSec + dto.ODSec * indexs.ODSec) * 84;
+            var cargoIndex = dto.CPT1 * indexs.CPT1 + dto.CPT2 * indexs.CPT2 + dto.CPT3 * indexs.CPT3 + dto.CPT4 * indexs.CPT4;
             entity.LIZFW = cabinIndex + cargoIndex + entity.DOI;
 
 
@@ -136,9 +136,11 @@ namespace APCore.Services
 
             }
 
+
             var saveResult = await _context.SaveAsync();
+            var result = _context.ViewMBs.SingleOrDefault(q => q.FlightId == flightId);
             if (saveResult.Succeed)
-                return new DataResponse() { IsSuccess = true, Data = entity };
+                return new DataResponse() { IsSuccess = true, Data = result };
             else
                 return new DataResponse() { IsSuccess = false };
 
@@ -153,7 +155,7 @@ namespace APCore.Services
 
         public async Task<DataResponse> GetLoadsheet(int flightId)
         {
-            var entity = _context.FlightInformations.SingleOrDefault(q => q.ID == flightId);
+            var entity = _context.ViewMBs.SingleOrDefault(q => q.FlightId == flightId);
             return new DataResponse() { IsSuccess = true, Data = entity };
 
         }

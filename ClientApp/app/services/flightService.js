@@ -734,7 +734,10 @@ app.factory('flightService', ['$http', '$q', 'ngAuthSettings', '$rootScope', fun
                 break;
             //tolnd
             case 'tolnd':
-                table = 'TOLND';
+                table = 'TOLND'
+                break;
+            case 'mb':
+                table = 'Loadsheet';
             default:
                 deferred.reject('wrong document type');
                 return;

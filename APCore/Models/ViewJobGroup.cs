@@ -22,5 +22,8 @@ namespace APCore.Models
         public int CustomerId { get; set; }
         public int? Employees { get; set; }
         public string FullCode2 { get; set; }
+        public int? Manager { get; set; }
+        public string ManagerTitle { get; set; }
+        public string ManagerFullCode2 { get; set; }
     }
 }

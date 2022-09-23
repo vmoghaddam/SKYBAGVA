@@ -110,8 +110,10 @@ app.controller('signAddController', ['$scope', '$location', 'flightService', 'au
                                     $scope.loadingVisible = true;
                                     flightService.signDoc(dto).then(function (response2) {
                                         $scope.loadingVisible = false;
+                                       
                                         if (response2.IsSuccess) {
                                             General.ShowNotify(Config.Text_SavedOk, 'success');
+                                            console.log(response2);
                                             response2.Data.doc = $scope.documentType;
                                             $rootScope.$broadcast('onSign', response2.Data);
                                             $scope.popup_add_visible = false;
@@ -243,6 +245,7 @@ app.controller('signAddController', ['$scope', '$location', 'flightService', 'au
         $scope.loadingVisible = true;
 
         flightService.epGetFlightCommanders(fid).then(function (response) {
+            console.log('sign res', response)
 
             $scope.loadingVisible = false;
             if (response.IsSuccess && response.Data) {
@@ -266,6 +269,7 @@ app.controller('signAddController', ['$scope', '$location', 'flightService', 'au
 
         $scope.tempData = prms;
 
+        console.log(prms);
 
         $scope.popup_add_visible = true;
 

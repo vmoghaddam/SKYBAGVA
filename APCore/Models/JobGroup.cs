@@ -24,6 +24,7 @@ namespace APCore.Models
         public string Remark { get; set; }
         public int CustomerId { get; set; }
         public string FullCode2 { get; set; }
+        public int? Manager { get; set; }
 
         public virtual JobGroup Parent { get; set; }
         public virtual ICollection<BookRelatedGroup> BookRelatedGroups { get; set; }

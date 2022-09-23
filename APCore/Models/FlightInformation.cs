@@ -194,6 +194,8 @@ namespace APCore.Models
         public int? OBSec { get; set; }
         public int? OCSec { get; set; }
         public int? ODSec { get; set; }
+        public int? MAXZFW { get; set; }
+        public int? MAXLNW { get; set; }
 
         public virtual Organization AirlineOperators { get; set; }
         public virtual Box Box { get; set; }

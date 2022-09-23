@@ -1,168 +1,116 @@
 ﻿'use strict';
 app.controller('mbController', ['$scope', '$location', 'flightService', 'mbService', 'authService', '$routeParams', '$rootScope', '$window', function ($scope, $location, flightService, mbService, authService, $routeParams, $rootScope, $window) {
 
-
-
-
-
-
-    $scope.isNew = true;
     $scope.isNew = true;
     $scope.isEditable = false;
     $scope.isLockVisible = false;
     $scope.isContentVisible = false;
-    $scope.isFullScreen = false;
-
-
-
-
-    var detector = new MobileDetect(window.navigator.userAgent);
-
-    //if (detector.mobile() && !detector.tablet())
     $scope.isFullScreen = true;
+    $scope.Loadsheet = false;
 
+    $scope.entity = {
+        Id: -1
+    }
 
 
     ////////////////////////
+
+
     $scope.popup_mb_visible = false;
     $scope.popup_height = $(window).height() - 300;
     $scope.popup_width = $(window).width() - 0;
     $scope.popup_mb_title = 'Mass & Balance';
     $scope.popup_instance = null;
-
     $scope.popup_mb = {
 
 
         showTitle: true,
 
-        toolbarItems: [
-            {
-                widget: 'dxButton', location: 'before', options: {
-                    type: 'default', text: 'Sign', icon: 'fas fa-signature', onClick: function (e) {
-                        if ($rootScope.getOnlineStatus()) {
-                            $rootScope.checkInternet(function (st) {
-                                if (st) {
-                                    var data = { FlightId: $scope.entity.FlightId, documentType: 'mb' };
+        toolbarItems: [{
+            widget: 'dxButton', location: 'after', options: {
+                type: 'default', text: 'Execute', icon: 'check', validationGroup: 'mb', useSubmitBehavior: true, onClick: function (e) {
 
-                                    $rootScope.$broadcast('InitSignAdd', data);
-                                }
-                                else {
-                                    General.ShowNotify("You are OFFLINE.Please check your internet connection", 'error');
-                                }
-                            });
 
-                        }
-                        else {
-                            General.ShowNotify("You are OFFLINE.Please check your internet connection", 'error');
-                        }
+                    var result = e.validationGroup.validate();
 
+                    if (!result.isValid) {
+                        General.ShowNotify(Config.Text_FillRequired, 'error');
+                        return;
                     }
-                }, toolbar: 'bottom'
-            },
 
-            {
-                widget: 'dxButton', location: 'after', options: {
-                    type: 'default', text: 'Save', icon: 'check', validationGroup: 'mb', onClick: function (e) {
 
-                        var result = e.validationGroup.validate();
+                    $scope.entity.FlightId = $scope.tempData.FlightId;
+                    $scope.entity.maxzfw = $scope.limitation.MAXZFW;
+                    $scope.entity.maxlnw = $scope.limitation.MAXLNW;
+                    $scope.entity.Cabin = $scope.entity.Cabin == null ? 0 : $scope.entity.Cabin
+                    $scope.entity.FSO = $scope.entity.FSO == null ? 0 : $scope.entity.FSO
+                    $scope.entity.FM = $scope.entity.FM == null ? 0 : $scope.entity.FM
+                    $scope.entity.OASec = $scope.entity.OASec == null ? 0 : $scope.entity.OASec
+                    $scope.entity.OBSec = $scope.entity.OBSec == null ? 0 : $scope.entity.OBSec
+                    $scope.entity.OCSec = $scope.entity.OCSec == null ? 0 : $scope.entity.OCSec
+                    $scope.entity.ODSec = $scope.entity.ODSec == null ? 0 : $scope.entity.ODSec
+                    $scope.entity.PaxAdult = $scope.entity.PaxAdult == null ? 0 : $scope.entity.PaxAdult
+                    $scope.entity.PaxChild = $scope.entity.PaxChild == null ? 0 : $scope.entity.PaxChild
+                    $scope.entity.PaxInfant = $scope.entity.PaxInfant == null ? 0 : $scope.entity.PaxInfant
+                    $scope.entity.CPT1 = $scope.entity.CPT1 == null ? 0 : $scope.entity.CPT1
+                    $scope.entity.CPT2 = $scope.entity.CPT2 == null ? 0 : $scope.entity.CPT2
+                    $scope.entity.CPT3 = $scope.entity.CPT3 == null ? 0 : $scope.entity.CPT3
+                    $scope.entity.CPT4 = $scope.entity.CPT4 == null ? 0 : $scope.entity.CPT4
+                    $scope.entity.CARGO = $scope.entity.CPT1 + $scope.entity.CPT2 + $scope.entity.CPT3 + $scope.entity.CPT4
 
-                        if (!result.isValid) {
-                            General.ShowNotify(Config.Text_FillRequired, 'error');
-                            return;
-                        }
-                        //alert($scope.entity.Id);
-                        //db.getCount('ASRs', function (n) {
-                        //    n = n + 1;
-                        //    n = -1 * n;
-                        //    $scope.entity.Id = n;
+                    $scope.loadingVisible = true;
 
-                        //});
-                        $scope.entity.User = $rootScope.userTitle;
-
+                    mbService.saveLoadsheet($scope.entity).then(function (response) {
                         $scope.loadingVisible = false;
-                        flightService.saveASR($scope.entity).then(function (response2) {
-                            $scope.loadingVisible = false;
-                            if (response2.IsSuccess) {
-                                General.ShowNotify(Config.Text_SavedOk, 'success');
-                                console.log('MB', response2.Data);
-                                $scope.popup_mb_visible = false;
-                            }
+                        mbService.getLoadsheet($scope.tempData.FlightId).then(function (response2) {
+
+                            //$scope.mbData = response2.Result.Data;
+                            $scope.Loadsheet = true;
+                            $scope.fill(response2.Result.Data);
 
 
-                        }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
+                            console.log('loadsheet', response2.Result.Data);
 
-
-
-
-                    }
-                }, toolbar: 'bottom'
-            },
-
-            {
-                widget: 'dxButton', location: 'after', options: {
-                    type: 'default', text: 'Execute', icon: 'check', onClick: function (e) {
-
-                        $scope.entity.FlightId = $scope.tempData.FlightId;
-                        $scope.entity.maxzfw = $scope.limitation.MAXZFW;
-                        $scope.entity.maxlnw = $scope.limitation.MAXLNW;
-                        $scope.entity.cabin = $scope.entity.cabin == null ? 0 : $scope.entity.cabin
-                        $scope.entity.fso = $scope.entity.fso == null ? 0 : $scope.entity.fso
-                        $scope.entity.fm = $scope.entity.fm == null ? 0 : $scope.entity.fm
-                        $scope.entity.oa = $scope.entity.oa == null ? 0 : $scope.entity.oa
-                        $scope.entity.ob = $scope.entity.ob == null ? 0 : $scope.entity.ob
-                        $scope.entity.oc = $scope.entity.oc == null ? 0 : $scope.entity.oc
-                        $scope.entity.od = $scope.entity.od == null ? 0 : $scope.entity.od
-                        $scope.entity.adult = $scope.entity.adult == null ? 0 : $scope.entity.adult
-                        $scope.entity.child = $scope.entity.child == null ? 0 : $scope.entity.child
-                        $scope.entity.infant = $scope.entity.infant == null ? 0 : $scope.entity.infant
-                        $scope.entity.cpt1 = $scope.entity.cpt1 == null ? 0 : $scope.entity.cpt1
-                        $scope.entity.cpt2 = $scope.entity.cpt2 == null ? 0 : $scope.entity.cpt2
-                        $scope.entity.cpt3 = $scope.entity.cpt3 == null ? 0 : $scope.entity.cpt3
-                        $scope.entity.cpt4 = $scope.entity.cpt4 == null ? 0 : $scope.entity.cpt4
-
-                        $scope.loadingVisible = true;
-
-                        mbService.calLoadSheet($scope.entity).then(function (response) {
-                            $scope.loadingVisible = false;
-                            mbService.getLoadsheet($scope.tempData.FlightId).then(function (response) {
-
-                                $scope.mbData = response.Result.Data;
-                                $scope.entity =
-                                {
-                                    pilot: $scope.mbData.Pilot,
-                                    cabin: $scope.mbData.Cabin,
-                                    fso: $scope.mbData.FSO,
-                                    fm: $scope.mbData.FM,
-                                    oa: $scope.mbData.OASec,
-                                    ob: $scope.mbData.OBSec,
-                                    oc: $scope.mbData.OCSec,
-                                    od: $scope.mbData.ODSec,
-                                    cpt1: $scope.mbData.CPT1,
-                                    cpt2: $scope.mbData.CPT2,
-                                    cpt3: $scope.mbData.CPT3,
-                                    cpt4: $scope.mbData.CPT4,
-                                    adult: $scope.mbData.PaxAdult,
-                                    child: $scope.mbData.PaxChild,
-                                    infant: $scope.mbData.PaxInfant,
-                                    pantryCode: $scope.mbData.PantryCode,
-                                    maxtow: $scope.mbData.MAXTOW,
-                                }
-
-
-
-                            })
                         })
+                    })
+
+                }
+            }, toolbar: 'bottom'
+        },
+        {
+            widget: 'dxButton', location: 'after', options: {
+                type: 'danger', text: 'Close', icon: 'remove', onClick: function (e) {
+                    $scope.popup_mb_visible = false;
+                }
+            }, toolbar: 'bottom'
+        },
+        {
+            widget: 'dxButton', location: 'before', options: {
+                type: 'default', text: 'Sign', icon: 'fas fa-signature', onClick: function (e) {
+                    if ($rootScope.getOnlineStatus()) {
+                        $rootScope.checkInternet(function (st) {
+                            if (st) {
+                                var data = { FlightId: $scope.entity.FlightId, documentType: 'mb' };
+
+                                $rootScope.$broadcast('InitSignAdd', data);
+                            }
+                            else {
+                                General.ShowNotify("You are OFFLINE.Please check your internet connection", 'error');
+                            }
+                        });
 
                     }
-                }, toolbar: 'bottom'
-            },
-            {
-                widget: 'dxButton', location: 'after', options: {
-                    type: 'danger', text: 'Close', icon: 'remove', onClick: function (e) {
-                        $scope.popup_mb_visible = false;
+                    else {
+                        General.ShowNotify("You are OFFLINE.Please check your internet connection", 'error');
                     }
-                }, toolbar: 'bottom'
-            },
+
+                }
+            }, toolbar: 'bottom'
+        },
+
+
+
+
         ],
 
         visible: false,
@@ -192,31 +140,26 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
             //$scope.clearEntity();
             $scope.entity = {
                 Id: -1,
-                IsSecurityEvent: false,
-                IsAirproxATC: false,
-                IsTCASRA: false,
-                IsWakeTur: false,
-                IsBirdStrike: false,
-                IsOthers: false,
-
             };
+
+
+
             $scope.popup_mb_visible = false;
-            $rootScope.$broadcast('onMBHide', null);
+            //$rootScope.$broadcast('onMBHide', null);
         },
         onContentReady: function (e) {
             if (!$scope.popup_instance)
                 $scope.popup_instance = e.component;
 
         },
-        // fullScreen:false,
         bindingOptions: {
             visible: 'popup_mb_visible',
             fullScreen: 'isFullScreen',
             title: 'popup_mb_title',
             height: 'popup_height',
             width: 'popup_width',
-            'toolbarItems[0].visible': 'isLockVisible',
-            'toolbarItems[1].visible': 'isEditable',
+            // 'toolbarItems[0].visible': 'isLockVisible',
+            // 'toolbarItems[1].visible': 'isEditable',
 
         }
     };
@@ -226,69 +169,60 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
 
 
     /////////////////////////////////
-    $scope.flight = null;
 
     $scope.fill = function (data) {
         $scope.entity = data;
+        $scope.mbData = data
     };
+
     $scope.isLockVisible = false;
     $scope.bind = function () {
-        //  $scope.entity.FlightId = $scope.tempData.FlightId;
-
-
-        mbService.getLoadsheet($scope.tempData.FlightId).then(function (response) {
-
-
-            mbService.getLimitation(response.Result.Data.RegisterID).then(function (response2) {
-                $scope.limitation = response2.Result.Data;
-            });
+        $scope.entity.FlightId = $scope.tempData.FlightId;
 
 
 
-            if (!response.Result.Data.TOW) {
-                $scope.isNew = true;
-                $scope.mbData = null;
-            }
-            else {
-                $scope.mbData = response.Result.Data;
-                console.log($scope.mbData);
-                $scope.entity =
-                {
-                    pilot: $scope.mbData.Pilot,
-                    cabin: $scope.mbData.Cabin,
-                    fso: $scope.mbData.FSO,
-                    fm: $scope.mbData.FM,
-                    oa: $scope.mbData.OASec,
-                    ob: $scope.mbData.OBSec,
-                    oc: $scope.mbData.OCSec,
-                    od: $scope.mbData.ODSec,
-                    cpt1: $scope.mbData.CPT1,
-                    cpt2: $scope.mbData.CPT2,
-                    cpt3: $scope.mbData.CPT3,
-                    cpt4: $scope.mbData.CPT4,
-                    adult: $scope.mbData.PaxAdult,
-                    child: $scope.mbData.PaxChild,
-                    infant: $scope.mbData.PaxInfant,
-                    pantryCode: $scope.mbData.PantryCode,
-                    maxtow: $scope.mbData.MAXTOW,
+
+
+        mbService.getLocalLoadSheet($scope.entity.FlightId).then(function (response) {
+
+            $scope.fill(response.Data);
+
+
+            if (!response.Data)
+                $scope.Loadsheet = false;
+
+            mbService.getLoadsheet($scope.tempData.FlightId).then(function (response2) {
+
+
+
+                mbService.getLimitation(response2.Result.Data.RegisterID).then(function (response3) {
+                    $scope.limitation = response3.Result.Data;
+                });
+
+
+
+                if (!response2.Result.Data.TOW) {
+                    $scope.isNew = true;
+                    $scope.mbData = null;
+                    $scope.Loadsheet = false;
+
                 }
-
-                console.log($scope.mbData);
-            }
-        })
-
-
-        console.log($scope.mbData);
+                else {
+                    $scope.fill(response2.Result.Data);
+                    $scope.Loadsheet = true;
+                }
+            })
 
 
-
-        //$scope.loadingVisible = true;
-        $scope.loadingVisible = false;
-
+            $scope.loadingVisible = false;
+        }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
 
 
     };
+
+
     ////////////////////////////////
+
     $scope.scroll_mb_height = $(window).height() - 130;
     $scope.scroll_mb = {
         width: '100%',
@@ -313,8 +247,6 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
 
     };
 
-    /////////////////////////////////
-
     $scope.dsPantryCode = [
         { id: 'A', title: 'A' },
         { id: 'B', title: 'B' },
@@ -329,7 +261,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         displayExpr: 'title',
         valueExpr: 'id',
         bindingOptions: {
-            value: 'entity.pantryCode'
+            value: 'entity.PantryCode'
 
         }
     };
@@ -339,7 +271,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 2,
         bindingOptions: {
-            value: 'entity.pilot',
+            value: 'entity.Pilot',
 
         }
     };
@@ -348,7 +280,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.cabin',
+            value: 'entity.Cabin',
 
         }
     };
@@ -357,8 +289,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.fso',
-
+            value: 'entity.FSO',
         }
     };
 
@@ -366,11 +297,10 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.fm',
+            value: 'entity.FM',
 
         }
     };
-    ///////////////////////////////
 
     $scope.txt_A = {
         hoverStateEnabled: false,
@@ -378,7 +308,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         min: 0,
         bindingOptions: {
             max: 'limitation.OASecLimit',
-            value: 'entity.oa',
+            value: 'entity.OASec',
 
         }
     };
@@ -387,7 +317,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.ob',
+            value: 'entity.OBSec',
             max: 'limitation.OBSecLimit',
 
         }
@@ -397,7 +327,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.oc',
+            value: 'entity.OCSec',
             max: 'limitation.OCSecLimit',
 
         }
@@ -407,19 +337,17 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.od',
+            value: 'entity.ODSec',
             max: 'limitation.ODSecLimit',
 
         }
     };
 
-    ///////////////////////////////
-
     $scope.txt_adult = {
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.adult',
+            value: 'entity.PaxAdult',
 
         }
     };
@@ -428,7 +356,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.child',
+            value: 'entity.PaxChild',
 
         }
     };
@@ -437,7 +365,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.infant',
+            value: 'entity.PaxInfant',
 
         }
     };
@@ -446,7 +374,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.adult + entity.child + entity.infant + entity.fm + entity.fso',
+            value: 'entity.PaxAdult + entity.PaxChild + entity.PaxInfant + entity.FM + entity.FSO',
 
         }
     };
@@ -455,7 +383,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.adult + entity.child + entity.infant + entity.fm + entity.fso + entity.pilot + entity.cabin',
+            value: 'entity.PaxAdult + entity.PaxChild + entity.PaxInfant + entity.FM + entity.FSO + entity.Pilot + entity.Cabin',
 
         }
     };
@@ -463,20 +391,17 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.maxtow',
+            value: 'entity.MAXTOW',
 
         }
     };
-
-    ///////////////////////////////
-
 
     $scope.txt_cpt1 = {
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
             max: 'limitation.CPT1Limit',
-            value: 'entity.cpt1',
+            value: 'entity.CPT1',
 
         }
     };
@@ -485,7 +410,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.cpt2',
+            value: 'entity.CPT2',
             max: 'limitation.CPT2Limit',
 
         }
@@ -495,7 +420,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.cpt3',
+            value: 'entity.CPT3',
             max: 'limitation.CPT3Limit',
 
         }
@@ -505,10 +430,51 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         hoverStateEnabled: false,
         min: 0,
         bindingOptions: {
-            value: 'entity.cpt4',
+            value: 'entity.CPT4',
             max: 'limitation.CPT4Limit',
 
         }
+    };
+
+
+   
+    $scope.txt_reg = {
+        hoverStateEnabled: false,
+        bindingOptions: {
+            value: 'entity.Register',
+
+        }
+    };
+
+    $scope.fltNo = {
+        hoverStateEnabled: false,
+        readOnly: true,
+        bindingOptions: {
+            value: 'entity.FlightNumber',
+
+        }
+    };
+
+    
+    var route = function (from, to) {
+        return from + " - " + to
+    }
+
+    $scope.txt_route = {
+        hoverStateEnabled: false,
+        min: 0,
+        bindingOptions: {
+            value: route($scope.entity.FromAirport, $scope.entity.ToAirport),
+
+        }
+    };
+
+
+    $scope.PilotValidation = {
+        validationRules: [{
+            type: 'required',
+            message: 'Pilot is required',
+        }],
     };
 
     //$scope.txt_toFuel = {
@@ -530,91 +496,26 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
     //};
 
 
-
-    ///////////////////////////////
-
-
-    $scope.tdWidth = $(window).width() / 31.0;
-    $scope.rows = [-100, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10]
-    $scope.columns = [-100, -14, -13, -12, -11, -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-    $scope.getTdClass = function (c, r) {
-        var cls = "";
-        if (r == 0 && c == 0) { return "ctd-center ctd"; }
-        if (r != -100) {
-            if (c == -100) {
-                cls = "ctd-empty";
-            }
-            else {
-                cls = "ctd";
-            }
-        }
-        else {
-            //if (c != -100) return "ctd-empty";
-            //else
-            //    return "ctd";
-            cls = "ctd-empty";
-        }
-        if (c == $scope.entity.AATXAbove && r == $scope.entity.AATYAbove) {
-            cls += " ctd-selected";
-        }
-
-        return cls;
-
-    }
-    $scope.tableAboveClicked = function (r, c) {
-        $scope.entity.AATXAbove = c;
-        $scope.entity.AATYAbove = r;
-    }
-
-
-
-    $scope.getAsClass = function (c, r) {
-        var cls = "";
-        if (r == 0 && c == 0) { return "ctd-center ctd"; }
-        if (r != -100) {
-            if (c == -100) {
-                cls = "ctd-empty";
-            }
-            else {
-                cls = "ctd";
-            }
-        }
-        else {
-            //if (c != -100) return "ctd-empty";
-            //else
-            //    return "ctd";
-            cls = "ctd-empty";
-        }
-
-
-        if (c == $scope.entity.AATXAstern && r == $scope.entity.AATYAstern) {
-            cls += " ctd-selected";
-        }
-        return cls;
-
-    }
-    $scope.tableAsternClicked = function (r, c) {
-        $scope.entity.AATXAstern = c;
-        $scope.entity.AATYAstern = r;
-    }
-
-
-
-
     ////////////////////////////////
     $scope.tempData = null;
     $scope.$on('onSign', function (event, prms) {
 
-        if (prms.doc == 'mb')
-            flightService.signDocLocal(prms, prms.doc).then(function (response) {
-                // $scope.isEditable = false;
-                // $scope.isLockVisible = false;
-                $scope.url_sign = signFiles + prms.PICId + ".jpg";
-                $scope.PIC = prms.PIC;
-                $scope.signDate = moment(new Date(prms.JLDatePICApproved)).format('YYYY-MM-DD HH:mm');
-            }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
+        $scope.url_sign = signFiles + prms.PICId + ".jpg";
+        $scope.PIC = prms.PIC;
+        $scope.signDate = moment(new Date(prms.JLDatePICApproved)).format('YYYY-MM-DD HH:mm');
+
+
+        //if (prms.doc == 'mb')
+        //    flightService.signDocLocal(prms, prms.doc).then(function (response) {
+        //        // $scope.isEditable = false;
+        //        // $scope.isLockVisible = false;
+
+        //    }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
+
 
     });
+
+
     $scope.$on('InitMb', function (event, prms) {
 
 
@@ -623,13 +524,7 @@ app.controller('mbController', ['$scope', '$location', 'flightService', 'mbServi
         $scope.tempData = prms;
 
 
-
-        console.log($scope.tempData);
-
         $scope.popup_mb_visible = true;
-
-
-
 
     });
 

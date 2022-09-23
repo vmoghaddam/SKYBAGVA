@@ -47,7 +47,6 @@ namespace APCore.Models
         public string JeppesenAirwayManualCPTRemark { get; set; }
         public bool? MinFuelRequiredDSP { get; set; }
         public bool? MinFuelRequiredCPT { get; set; }
-        public decimal? MinFuelRequiredSFP { get; set; }
         public decimal? MinFuelRequiredPilotReq { get; set; }
         public bool? GeneralDeclarationDSP { get; set; }
         public bool? GeneralDeclarationCPT { get; set; }
@@ -99,5 +98,9 @@ namespace APCore.Models
         public string DSPPID { get; set; }
         public string DSPNID { get; set; }
         public string DSPMobile { get; set; }
+        public string JLSignedBy { get; set; }
+        public DateTime? JLDatePICApproved { get; set; }
+        public int? PICId { get; set; }
+        public string PIC { get; set; }
     }
 }
