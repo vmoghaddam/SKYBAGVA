@@ -442,11 +442,17 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
     var crewCId = null;
     var sobId = null;
     $scope.fill = function (data, callback) {
-        console.log(data);
+        console.log('RRRRRRRRRRRRRRRr',data);
         data.JPlan = data.JPlan ? JSON.parse(data.JPlan) : [];
         data.JAPlan1 = data.JAPlan1 ? JSON.parse(data.JAPlan1) : [];
         data.JAPlan2 = data.JAPlan2 ? JSON.parse(data.JAPlan2) : [];
         data.JFuel = data.JFuel ? JSON.parse(data.JFuel) : [];
+        data.JCSTBL = data.JCSTBL ? JSON.parse(data.JCSTBL) : [];
+        data.JALDRF = data.JALDRF ? JSON.parse(data.JALDRF) : [];
+        data.JALDRF_FL = Enumerable.From(data.JALDRF).Where('$.FL =="320"').FirstOrDefault();
+        data.JALDRF = Enumerable.From(data.JALDRF).Where('$.FL !="320"').ToArray();
+        
+        data.JWTDRF = data.JWTDRF ? JSON.parse(data.JWTDRF) : [];
 
         try {
 
@@ -463,6 +469,7 @@ app.controller('ofpAddController', ['$scope', '$location', 'flightService', 'aut
         }
 
         $scope.entity = data;
+        console.log('OFP OFP OFP lllll', $scope.entity);
         setTimeout(function () {
             callback();
         }, 100);

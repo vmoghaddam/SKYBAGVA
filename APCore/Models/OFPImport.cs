@@ -42,6 +42,10 @@ namespace APCore.Models
         public string JAPlan2 { get; set; }
         public string JFuel { get; set; }
 
+        public string JCSTBL { get; set; }
+        public string JALDRF { get; set; }
+        public string JWTDRF { get; set; }
+
         public virtual FlightInformation Flight { get; set; }
         public virtual ICollection<OFPImportItem> OFPImportItems { get; set; }
         public virtual ICollection<OFPImportProp> OFPImportProps { get; set; }

@@ -9959,6 +9959,9 @@ namespace APCore.Models
                 entity.Property(e => e.JAPlan2).IsUnicode(false);
 
                 entity.Property(e => e.JFuel).IsUnicode(false);
+                entity.Property(e => e.JCSTBL).IsUnicode(false);
+                entity.Property(e => e.JALDRF).IsUnicode(false);
+                entity.Property(e => e.JWTDRF).IsUnicode(false);
 
                 entity.Property(e => e.JLDatePICApproved).HasColumnType("datetime");
 

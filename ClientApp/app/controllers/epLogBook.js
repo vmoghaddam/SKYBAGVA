@@ -513,9 +513,131 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
         }
     };
     ///////////////////////////////
+    $scope.showPdf = function (item) {
+        var data = { url: item.url, caption: item.caption, hidden: item.hidden };
+
+        $rootScope.$broadcast('InitPdfViewer', data);
+
+    };
+    //////////////////////////////
+    $scope.rmClick = function (flt) {
+        //$scope._reqfuel=$scope.selectedFlight.ALT5;
+
+        $scope.popup_rm_visible = true;
+    };
+
+    $scope.btn_rm_dd = {
+        text: 'Drift Down',
+        type: 'default',
+        //icon: 'search',
+        width: '100%',
+
+        onClick: function (e) {
+            //var _url = 'https://apvaresh.ir/upload/clientsfiles/' + fileUrl;
+            //$scope.showPdf({ url: _url, caption: 'Report' });
+           
+            
+            var item = { url: routeManuals + 'DriftDown/' + ($scope.selectedFlight.FromAirportIATA + '-' + $scope.selectedFlight.ToAirportIATA)+'.pdf',caption:'DRIFT DOWN'};
+            $scope.showPdf(item);
+        },
+
+    };
+
+    $scope.btn_rm_dp = {
+        text: 'De-Compression Procedure',
+        type: 'default',
+        //icon: 'search',
+        width: '100%',
+
+        onClick: function (e) {
+            //DeCompressionProcedure
+            var item = { url: routeManuals + 'DeCompressionProcedure/' + ($scope.selectedFlight.FromAirportIATA + '-' + $scope.selectedFlight.ToAirportIATA) + '.pdf', caption: 'DE-COMPRESSION PROCEDURE' };
+            $scope.showPdf(item);
+        },
+
+    };
+
+    $scope.btn_rm_cp = {
+        text: 'CFDA Procedure',
+        type: 'default',
+        //icon: 'search',
+        width: '100%',
+
+        onClick: function (e) {
+            //CFDAProcedure
+            var item = { url: routeManuals + 'CFDAProcedure/' + ($scope.selectedFlight.FromAirportIATA + '-' + $scope.selectedFlight.ToAirportIATA) + '.pdf', caption: 'CFDA PROCEDURE' };
+            $scope.showPdf(item);
+        },
+
+    };
+
+    $scope.btn_rm_ab = {
+        text: 'Area Briefing',
+        type: 'default',
+        //icon: 'search',
+        width: '100%',
+
+        onClick: function (e) {
+            //AreaBriefing
+            var item = { url: routeManuals + 'AreaBriefing/' + ($scope.selectedFlight.FromAirportIATA + '-' + $scope.selectedFlight.ToAirportIATA) + '.pdf', caption: 'AREA BRIEFING' };
+            $scope.showPdf(item);
+        },
+
+    };
+
+
+    $scope.popup_rm_visible = false;
+    $scope.popup_rm = {
+        height: 300,
+        width: 280,
+        title: 'Route Manual',
+        showTitle: true,
+
+        toolbarItems: [
+
+
+            {
+                widget: 'dxButton', location: 'after', options: {
+                    type: 'danger', text: 'Close', onClick: function (e) {
+
+
+                        $scope.popup_rm_visible = false;
+                    }
+                }, toolbar: 'bottom'
+            },
+
+        ],
+
+        visible: false,
+        dragEnabled: true,
+        closeOnOutsideClick: false,
+        onShowing: function (e) {
+
+        },
+        onShown: function (e) {
+
+        },
+        onHiding: function () {
+
+            //$scope.clearEntity();
+
+            $scope.popup_rm_visible = false;
+
+        },
+        onContentReady: function (e) {
+
+        },
+        bindingOptions: {
+            visible: 'popup_rm_visible',
+
+
+        }
+    };
+
+    ////////////////////////////////////////
     $scope.reqFuelClick = function (flt) {
         //$scope._reqfuel=$scope.selectedFlight.ALT5;
-        
+
         $scope.popup_prf_visible = true;
     };
     $scope.popup_prf_visible = false;
@@ -539,11 +661,11 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
                         flightService.saveRequestedFuel(dto).then(function (response) {
                             $scope.loadingVisible = false;
 
-                            
+
                             $scope.popup_prf_visible = false;
 
                         }, function (err) { $scope.loadingVisible = false; General.ShowNotify(err.message, 'error'); });
-                       
+
 
                     }
                 }, toolbar: 'bottom'
@@ -619,7 +741,6 @@ app.controller('epLogBookController', ['$scope', '$location', '$routeParams', '$
             value: "selectedFlight.ALT3"
         }
     }
-
     ////////////////////////////
     $scope.popup_loading_visible = false;
     $scope.popup_loading = {

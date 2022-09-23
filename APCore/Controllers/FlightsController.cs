@@ -25,7 +25,23 @@ namespace APCore.Controllers
 
             _flightService = flightService;
         }
-
+        [HttpGet]
+        [Route("api/test")]
+        public async Task<IActionResult> GetTest()
+        {
+            try{
+                var flt = await _flightService.GetCrewFlightsQuery().FirstOrDefaultAsync();
+                return Ok(flt);
+            }
+            catch(Exception ex)
+            {
+                var msg = ex.Message;
+                if (ex.InnerException != null)
+                    msg += "    INNER:" + ex.InnerException.Message;
+                return Ok(msg);
+            }
+           
+        }
         [HttpGet]
       
         [Route("api/online")]

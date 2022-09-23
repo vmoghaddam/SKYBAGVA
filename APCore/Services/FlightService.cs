@@ -284,7 +284,10 @@ namespace APCore.Services
                         ofp.PIC,
                         ofp.PICId,
                         ofp.JLSignedBy,
-                        ofp.JLDatePICApproved
+                        ofp.JLDatePICApproved,
+                        ofp.JWTDRF,
+                        ofp.JCSTBL,
+                        ofp.JALDRF
 
                     },
                     Errors = null,
@@ -339,6 +342,9 @@ namespace APCore.Services
                         q.JAPlan2,
                         q.JPlan,
                         q.JFuel,
+                        q.JCSTBL,
+                        q.JALDRF,
+                        q.JWTDRF
                     }).ToList(),
                     ofpProps = props
 
