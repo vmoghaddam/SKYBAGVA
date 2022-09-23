@@ -53,9 +53,9 @@
         width: 90px;
     }
 
-        .prop.selected {
-            border-color: orange;
-        }
+    .prop.selected {
+        border-color: orange;
+    }
 
     .noborder {
         border: 1px solid #ccc !important;
@@ -218,7 +218,7 @@
                 <div style="clear:both"></div>
 
                 <!--FUEL-->
-                <table style='border:1px solid #ccc;margin-top:10px;width:40% ' class="pln col-lg-6">
+                <table style='border:1px solid #ccc;margin-top:10px;  ' class="pln col-lg-6">
                     <thead>
                         <tr style='border-bottom:1px solid #ccc;background:#bbb;color:black '>
                             <td style='border-right:1px solid #ccc;text-align:left;width:140px;font-weight:bold;padding:3px 0 3px 5px'>
@@ -239,21 +239,390 @@
                                 {{x.prm}}
                             </td>
                             <td ng-show="x.prm=='EXTRA'" style='border-right:1px solid #ccc;padding:3px 5px 3px 5px '>
-                                <input type='number' style="width: 100px;" data-info='_null_' readonly  class="prop2 noborder" id='prop_{{x._key}}' />
+                                <input type='number' style="width: 100px;" data-info='_null_' readonly class="prop2 noborder" id='prop_{{x._key}}' />
                             </td>
                             <td ng-show="x.prm!='EXTRA'" style='border-right:1px solid #ccc;padding:3px 5px 3px 5px '>{{x.value}}</td>
 
                             <td style='border-right:1px solid #ccc; padding:3px 5px 3px 5px'>{{_Time(x.time)}}</td>
                             <td style='border-right:1px solid #ccc; padding:3px 5px 3px 5px'>
 
-                                <input type='text' ng-show="x.prm=='EXTRA'" style="width: 100%;" data-info='_null_' readonly   class="prop2 noborder" id='prop_{{x._key}}_due' />
+                                <input type='text' ng-show="x.prm=='EXTRA'" style="width: 100%;" data-info='_null_' readonly class="prop2 noborder" id='prop_{{x._key}}_due' />
                             </td>
                             <!--<td style='border-right:1px solid #ccc; width:100px;padding:3px 5px 3px 5px'></td>-->
                         </tr>
                     </tbody>
                 </table>
 
-                <div style="margin-top:10px;width:58%;padding-right:0" class='col-lg-6'>
+                <div style="margin-top:10px; padding:0;padding-left:15px" class='col-lg-2'>
+                    <div style="background:#bbb;color:black;padding:5px;text-align:center">
+                        WEIGHT DRIFT
+                        <div>[KG]</div>
+                    </div>
+                    <table style='border:1px solid #ccc;margin-top:0px;width:100% ' class="pln">
+                        <thead>
+                            <tr>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:3px 0 3px 5px;text-align:center'>x</td>
+                                <td style='border-right:1px solid #ccc;font-size:12px;text-align:center'>Δ</td>
+                            </tr>
+                            <tr>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:3px 0 3px 5px;text-align:center'>1000</td>
+                                <td style='border-right:1px solid #ccc;font-size:12px;text-align:center'>FUEL</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in entity.JWTDRF" style='border-bottom:1px solid #ccc;border-top:1px solid #ccc'>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.X}}
+                                </td>
+                                <td style='border-right:1px solid #ccc;padding:3px 5px 3px 5px;text-align:center '>
+                                    {{x.FUEL}}
+                                </td>
+                            </tr>
+                            <tr style='border-bottom:1px solid #ccc;border-top:1px solid #ccc;height:116px'>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <div style="margin-top:10px;padding:0; padding-left:10px" class='col-lg-4'>
+                    <div style="background:#bbb;color:black;padding:5px;text-align:center">
+                        ALTITUDE DRIFT
+                        <div>&nbsp;</div>
+                    </div>
+                    <table style='border:1px solid #ccc;margin-top:0px;width:100% ' class="pln">
+                        <thead>
+                            <tr>
+                                <td rowspan="2" style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:5px 0 5px 5px;text-align:center'>FL</td>
+                                <td rowspan="2" style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:3px 0 3px 5px;text-align:center'>AVG WIND</td>
+                                <td style='border-right:1px solid #ccc;font-size:12px;text-align:center;padding:3px 0 3px 0'>Δ</td>
+                                <td style='border-right:1px solid #ccc;font-size:12px;text-align:center'>Δ</td>
+                                <td style='border-right:1px solid #ccc;font-size:12px;text-align:center'>Δ</td>
+                                <td style='border-right:1px solid #ccc;font-size:12px;text-align:center'>M</td>
+                                <td rowspan="2" style='border-right:1px solid #ccc;font-size:12px;text-align:center'>ISA DEV</td>
+                            </tr>
+                            <tr>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:3px 0 3px 5px;text-align:center'>FUEL</td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:3px 0 3px 5px;text-align:center'>T</td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:3px 0 3px 5px;text-align:center'>SH</td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-size:12px;padding:3px 0 3px 5px;text-align:center'>SH</td>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="x in entity.JALDRF" style='border-bottom:1px solid #ccc;border-top:1px solid #ccc'>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.FL}}
+                                </td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.WIND}}
+                                </td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.FUEL}}
+                                </td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.T}}
+                                </td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.SH1}}
+                                </td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.SH2}}
+                                </td>
+                                <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{x.DEV}}
+                                </td>
+                            </tr>
+                            <tr style='border-bottom:1px solid #ccc;border-top:1px solid #ccc;height:63px'>
+                            </tr>
+                            <tr style='border-bottom:1px solid #ccc;border-top:1px solid #ccc; '>
+                                <td style='font-size:14px;border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                    {{entity.JALDRF_FL.FL}}
+                                </td>
+                                <td style='font-size: 14px; border-right: 1px solid #ccc; text-align: left; font-weight: bold; padding: 3px 0 3px 5px; text-align: center'>
+                                    {{entity.JALDRF_FL.WIND}}
+                                </td>
+                                <td style='font-size: 14px; border-right: 1px solid #ccc; text-align: left; font-weight: bold; padding: 3px 0 3px 5px; text-align: center'>
+                                    {{entity.JALDRF_FL.FUEL}}
+                                </td>
+                                <td style='font-size: 14px; border-right: 1px solid #ccc; text-align: left; font-weight: bold; padding: 3px 0 3px 5px; text-align: center'>
+                                    {{entity.JALDRF_FL.T}}
+                                </td>
+                                <td style='font-size: 14px; border-right: 1px solid #ccc; text-align: left; font-weight: bold; padding: 3px 0 3px 5px; text-align: center'>
+                                    {{entity.JALDRF_FL.SH1}}
+                                </td>
+                                <td style='font-size: 14px; border-right: 1px solid #ccc; text-align: left; font-weight: bold; padding: 3px 0 3px 5px; text-align: center'>
+                                    {{entity.JALDRF_FL.SH2}}
+                                </td>
+                                <td style='font-size: 14px; border-right: 1px solid #ccc; text-align: left; font-weight: bold; padding: 3px 0 3px 5px; text-align: center'>
+                                    {{entity.JALDRF_FL.DEV}}
+                                </td>
+                            </tr>
+                            <tr style='border-bottom:1px solid #ccc;border-top:1px solid #ccc;height:50px'>
+                                <td colspan="7" style="text-align:left;padding-left:10px">MAX SHEAR:</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div style='clear:both'></div>
+
+
+
+                <!--END OF FUEL-->
+                <table style='border:1px solid #ccc;margin-top:10px ' class="pln col-lg-8">
+                    <tr style="background:#ccc;color:black;padding:3px;">
+                        <td colspan="4" style="text-align:center;padding:3px;font-weight:bold">ATIS</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #ccc">
+                        <td rowspan="2" style="width:10%;border-right:1px solid #ccc;padding:3px;">{{flight.FromAirportIATA}}</td>
+                        <td style="border-right: 1px solid #ccc;padding:3px;"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_dep_atis1' /></td>
+                        <td style="width:7%;">QNH</td>
+                        <td style="width:13%;"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_dep_qnh1' /></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #ccc">
+                        <td style="border-right: 1px solid #ccc;padding:3px;"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_dep_atis2' /></td>
+                        <td style="width:7%;">QNH</td>
+                        <td style="width:13%;"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_dep_qnh2' /></td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #ccc">
+                        <td style="border-right: 1px solid #ccc;padding:10px 3px 7px 3px">{{flight.ToAirportIATA}}</td>
+                        <td style="border-right: 1px solid #ccc;padding:3px;"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_arr_atis' /></td>
+                        <td style="width:7%;">QNH</td>
+                        <td style="width:13%;"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_arr_qnh' /></td>
+                    </tr>
+                </table>
+                <div style="padding:0;padding-left:15px;" class=" col-lg-4">
+                    <table style='border:1px solid #ccc;margin-top:10px;padding-left:15px;width:100% ' class="pln">
+                        <tr style="background:#ccc;color:black;padding:3px;">
+                            <td colspan="2" style="text-align:center;padding:3px;border-right:1px solid black;font-weight:bold">TAKE-OFF</td>
+                            <td colspan="2" style="text-align:center;padding:3px;font-weight:bold">Landing</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc">
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">V1</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_to_v1' /> </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"> STAR</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_lnd_star' /> </td>
+
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc">
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">VR</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_to_vr' /> </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"> APP</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_lnd_app' /> </td>
+
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc">
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">V2</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_to_v2' /> </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"> V REF</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_lnd_vref' /> </td>
+
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc">
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">CONF</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_to_conf' /> </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"> CONF</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_lnd_conf' /> </td>
+
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc">
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">ASMD</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_to_asmd' /> </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"> LDA</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_lnd_lda' /> </td>
+
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc">
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">RWY</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">COND </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"> RWY</td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc">COND </td>
+
+                        </tr>
+                        <tr style="border-bottom: 1px solid #ccc">
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_to_rwy' /></td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_to_cond' /> </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_lnd_rwy' /> </td>
+                            <td style="text-align:center;padding:3px;border-right:1px solid #ccc"><input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_lnd_cond' /> </td>
+
+                        </tr>
+                    </table>
+
+                </div>
+              
+
+                <div style="clear:both"></div>
+                <div style="margin-top:20px;margin-bottom:10px;font-weight:bold">
+                    <table style="border:1px solid #ccc;width:100%">
+                        <tr>
+                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;text-align:center;width:85px">
+                                OFF BLOCK
+                            </td>
+                            <td style="text-align:center;border-right:1px solid #ccc ">
+                                {{flight.BlockOff?formatDateTime(flight.BlockOff):'-'}}
+                            </td>
+                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;text-align:center;width:85px">
+                                TAKE OFF
+                            </td>
+                            <td style="text-align:center;min-width:50px;border-right:1px solid #ccc ">
+                                {{flight.TakeOff?formatDateTime(flight.TakeOff):'-'}}
+                            </td>
+                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;text-align:center;width:85px">
+                                LAND
+                            </td>
+                            <td style="text-align:center;min-width:50px;border-right:1px solid #ccc ">
+                                {{flight.Landing?formatDateTime(flight.Landing):'-'}}
+                            </td>
+                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;width:85px">
+                                ON BLOCK
+                            </td>
+                            <td style="text-align:center;min-width:50px;border-right:1px solid #ccc ">
+                                {{flight.BlockOn?formatDateTime(flight.BlockOn):'-'}}
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <table style='border:1px solid #ccc;width:100%' class="pln">
+                    <thead>
+                        <tr style='border-bottom:1px solid #aaa;background:#bbb;color:black'>
+                            <td rowspan='2' style='border-right:1px solid #ccc;text-align:left;width:150px;font-weight:bold'>
+
+                                WAYPOINT
+                            </td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>AIRWAY</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>MEA</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>DIST</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>WIND</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>TRK</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>SAT/ISA</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>TIME</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold;min-width:140px' rowspan='2'>ETA/ATA</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>REMAIN</td>
+                            <td style='border-right:0px solid #aaa;font-weight:bold;min-width:140px'>ACTUAL</td>
+                        </tr>
+                        <tr style="background: #bbb;color:black">
+
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>ALT/FL</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>GMR</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>TOTAL</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>DIR/SPD</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>HDG</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>SR</td>
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>TOTAL</td>
+
+                            <td style='border-right:1px solid #aaa;font-weight:bold'>USED</td>
+                            <td style='border-right:0px solid #aaa;font-weight:bold'>REM/USD</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in entity.JPlan" style='border-bottom:1px solid #ccc;border-top:1px solid #ccc'>
+                            <td style='border-right:1px solid #ccc;text-align:left'>
+                                <div style="font-weight:bold">{{x.WAP}}</div>
+                                <div style="font-size:13px;">{{_COR(x)}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div>{{x.VIA}}</div>
+                                <div>{{x.ALT}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div style="border-bottom:1px dashed #bbb;min-height:17px;">{{_Empty(x.MEA)}}</div>
+                                <div>{{_Empty(x.GMR)}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div>{{x.DIS}}</div>
+                                <div style="font-weight:bold">{{x.TDS}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div>{{x.WID}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div>{{x.TRK}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div>{{x.TMP}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div>{{_Time(x.TME)}}</div>
+                                <div style="font-weight:bold">{{_Time(x.TTM)}}</div>
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <table style="margin:5px auto">
+                                    <tr>
+                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_' ng-click='propClick($event)' class="prop noborder" id='prop_{{x._key}}_eta_{{$index}}' /></td>
+                                        <td> <input type='text' style="width: 60px !important;" data-info='_null_' on-long-press='hold(x._key,$index)' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_ata_{{$index}}' /></td>
+                                    </tr>
+                                    <!--<tr style="height:30px">
+                                        <td></td>
+                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_'   class="prop noborder" id='prop_{{x._key}}_dta_{{$index}}' /></td>
+                                    </tr>-->
+                                    ta
+
+                                </table>
+
+
+
+                            </td>
+                            <td style='border-right:1px solid #ccc'>
+                                <div style="font-weight:bold">{{x.FRE}}</div>
+                                <div style="font-weight:bold">{{x.FUS}}</div>
+                            </td>
+                            <td style='border-right:0px solid #ccc'>
+                                <table style="margin:5px auto">
+                                    <tr>
+                                        <td><input type='text' style="width: 60px !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_rem_{{$index}}' /></td>
+                                        <td><input type='text' style="width: 60px !important;" data-info='_null_' data-ofp="{{x.FUS}}" ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_usd_{{$index}}' /> </td>
+                                    </tr>
+                                    <tr style="height:30px">
+                                        <td></td>
+                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_' class="prop2 noborder" id='prop_{{x._key}}_dusd_{{$index}}' /></td>
+                                    </tr>
+                                </table>
+
+
+
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="margin-top:10px; padding-right:0;padding:0" class='col-lg-6'>
+                    <div style="background:#bbb;color:black;padding:5px;">
+                        ENROUTE ATIS RECORDS
+                    </div>
+                    <table style="width:100%;border:1px solid #ccc">
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:15px 5px 12px 5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 1</td>
+                            <td style="padding:5px">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis1' />
+                            </td>
+
+                        </tr>
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:15px 5px 15px 5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 2</td>
+                            <td style="padding:5px">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis2' />
+                            </td>
+
+                        </tr>
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:15px 5px 15px 5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 3</td>
+                            <td style="padding:5px">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis3' />
+                            </td>
+
+                        </tr>
+                        <tr style="border-bottom:1px solid #ccc">
+                            <td style="padding:15px 5px 15px 5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 4</td>
+                            <td style="padding:5px">
+                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis4' />
+                            </td>
+
+                        </tr>
+
+                    </table>
+                </div>
+                <div style="margin-top:10px; padding-left:15px" class='col-lg-6'>
                     <div style="background:#bbb;color:black;padding:5px;">
                         RVSM CHECK
                     </div>
@@ -368,178 +737,8 @@
 
                     </table>
                 </div>
-                <div style='clear:both'></div>
-                <!--END OF FUEL-->
 
-                <div style="margin-top:20px;margin-bottom:10px;font-weight:bold">
-                    <table style="border:1px solid #ccc;width:100%">
-                        <tr>
-                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;text-align:center;width:85px">
-                                OFF BLOCK
-                            </td>
-                            <td style="text-align:center;border-right:1px solid #ccc ">
-                                {{flight.BlockOff?formatDateTime(flight.BlockOff):'-'}}
-                            </td>
-                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;text-align:center;width:85px">
-                                TAKE OFF
-                            </td>
-                            <td style="text-align:center;min-width:50px;border-right:1px solid #ccc ">
-                                {{flight.TakeOff?formatDateTime(flight.TakeOff):'-'}}
-                            </td>
-                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;text-align:center;width:85px">
-                                LAND
-                            </td>
-                            <td style="text-align:center;min-width:50px;border-right:1px solid #ccc ">
-                                {{flight.Landing?formatDateTime(flight.Landing):'-'}}
-                            </td>
-                            <td style="padding:7px;border-right:1px solid #ccc;font-weight:bold;font-size:12px;width:85px">
-                                ON BLOCK
-                            </td>
-                            <td style="text-align:center;min-width:50px;border-right:1px solid #ccc ">
-                                {{flight.BlockOn?formatDateTime(flight.BlockOn):'-'}}
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <table style='border:1px solid #ccc;width:100%' class="pln">
-                    <thead>
-                        <tr style='border-bottom:1px solid #aaa;background:#bbb;color:black'>
-                            <td rowspan='2' style='border-right:1px solid #ccc;text-align:left;width:150px;font-weight:bold'>
-
-                                WAYPOINT
-                            </td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>AIRWAY</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>MEA</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>DIST</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>WIND</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>TRK</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>SAT/ISA</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>TIME</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold;min-width:140px' rowspan='2'>ETA/ATA</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>REMAIN</td>
-                            <td style='border-right:0px solid #aaa;font-weight:bold;min-width:140px'>ACTUAL</td>
-                        </tr>
-                        <tr style="background: #bbb;color:black">
-
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>ALT/FL</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>GMR</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>TOTAL</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>DIR/SPD</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>HDG</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>SR</td>
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>TOTAL</td>
-
-                            <td style='border-right:1px solid #aaa;font-weight:bold'>USED</td>
-                            <td style='border-right:0px solid #aaa;font-weight:bold'>REM/USD</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="x in entity.JPlan" style='border-bottom:1px solid #ccc;border-top:1px solid #ccc'>
-                            <td style='border-right:1px solid #ccc;text-align:left'>
-                                <div style="font-weight:bold">{{x.WAP}}</div>
-                                <div style="font-size:13px;">{{_COR(x)}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div>{{x.VIA}}</div>
-                                <div>{{x.ALT}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div style="border-bottom:1px dashed #bbb;min-height:17px;">{{_Empty(x.MEA)}}</div>
-                                <div>{{_Empty(x.GMR)}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div>{{x.DIS}}</div>
-                                <div style="font-weight:bold">{{x.TDS}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div>{{x.WID}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div>{{x.TRK}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div>{{x.TMP}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div>{{_Time(x.TME)}}</div>
-                                <div style="font-weight:bold">{{_Time(x.TTM)}}</div>
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <table style="margin:5px auto">
-                                    <tr>
-                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_' ng-click='propClick($event)' class="prop noborder" id='prop_{{x._key}}_eta_{{$index}}' /></td>
-                                        <td> <input type='text' style="width: 60px !important;" data-info='_null_' on-long-press='hold(x._key,$index)' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_ata_{{$index}}' /></td>
-                                    </tr>
-                                    <!--<tr style="height:30px">
-                                        <td></td>
-                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_'   class="prop noborder" id='prop_{{x._key}}_dta_{{$index}}' /></td>
-                                    </tr>-->
-                                </table>
-                                
-                                
-                               
-                            </td>
-                            <td style='border-right:1px solid #ccc'>
-                                <div style="font-weight:bold">{{x.FRE}}</div>
-                                <div style="font-weight:bold">{{x.FUS}}</div>
-                            </td>
-                            <td style='border-right:0px solid #ccc'>
-                                <table style="margin:5px auto">
-                                    <tr>
-                                        <td><input type='text' style="width: 60px !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_rem_{{$index}}' /></td>
-                                        <td><input type='text' style="width: 60px !important;" data-info='_null_' data-ofp="{{x.FUS}}" ng-click='propClick($event)' class="prop" id='prop_{{x._key}}_usd_{{$index}}' /> </td>
-                                    </tr>
-                                    <tr style="height:30px">
-                                        <td></td>
-                                        <td><input type='text' style="width: 60px !important;" readonly data-info='_null_' class="prop2 noborder" id='prop_{{x._key}}_dusd_{{$index}}' /></td>
-                                    </tr>
-                                </table>
-                                
-                                
-                                
-                            </td>
-
-                        </tr>
-                    </tbody>
-                </table>
-
-                <div style="margin-top:10px">
-                    <div style="background:#bbb;color:black;padding:5px;">
-                        ENROUTE ATIS RECORDS
-                    </div>
-                    <table style="width:100%;border:1px solid #ccc">
-                        <tr style="border-bottom:1px solid #ccc">
-                            <td style="padding:5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 1</td>
-                            <td style="padding:5px">
-                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis1' />
-                            </td>
-
-                        </tr>
-                        <tr style="border-bottom:1px solid #ccc">
-                            <td style="padding:5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 2</td>
-                            <td style="padding:5px">
-                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis2' />
-                            </td>
-
-                        </tr>
-                        <tr style="border-bottom:1px solid #ccc">
-                            <td style="padding:5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 3</td>
-                            <td style="padding:5px">
-                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis3' />
-                            </td>
-
-                        </tr>
-                        <tr style="border-bottom:1px solid #ccc">
-                            <td style="padding:5px;text-align:center;width:70px;border-right:1px solid #ccc">ATIS 4</td>
-                            <td style="padding:5px">
-                                <input type='text' style="width: 100% !important;" data-info='_null_' ng-click='propClick($event)' class="prop" id='prop_atis4' />
-                            </td>
-
-                        </tr>
-
-                    </table>
-                </div>
-
+                <div style="clear:both"></div>
 
 
 
@@ -547,7 +746,7 @@
                 <div style="margin-top:20px;margin-bottom:10px;font-weight:bold">ALTERNATE 1</div>
                 <table style='border:1px solid #ccc;width:100%' class="pln">
                     <thead>
-                        <tr style='border-bottom:1px solid #ccc;background:#bbb'>
+                        <tr style='border-bottom:1px solid #ccc;background:#bbb;color:black'>
                             <td rowspan='2' style='border-right:1px solid #ccc;text-align:left;width:140px;font-weight:bold'>
 
                                 WAYPOINT
@@ -563,7 +762,7 @@
                             <td style='border-right:1px solid #ccc;font-weight:bold'>REMAIN</td>
                             <td style='border-right:0px solid #ccc;font-weight:bold;min-width:140px'>ACTUAL</td>
                         </tr>
-                        <tr style="background: #bbb">
+                        <tr style="background: #bbb; color: black">
 
                             <td style='border-right:1px solid #ccc;font-weight:bold'>ALT/FL</td>
                             <td style='border-right:1px solid #ccc;font-weight:bold'>GMR</td>
@@ -627,6 +826,59 @@
                     </tbody>
                 </table>
 
+
+                <div style="margin-top:20px;margin-bottom:10px;font-weight:bold">CRITICAL SECTORS DATA</div>
+                <table style='border:1px solid #ccc;margin-top:10px;width:100% ' class="pln">
+                    <thead>
+                        <tr style="background:#bbb;color:black">
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:5%'>ETP NO</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:10%'>AIRPORTS</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:10%'>ATIS</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:10%'>ETP</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:5%'>REM FUEL</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:5%'>REQ FUEL</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:5%'>DIFF FUEL</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:5%'>TIME</td>
+                            <td style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:5%'>DIST[NM]</td>
+                            <td rowspan="2" style='border-right:1px solid black;text-align:left; font-size:13px;padding:3px 0 3px 5px;text-align:center;width:30%'>[RWY,LEN,MB,LLZ,CAT]</td>
+                        </tr>
+                        <tr style="background:#bbb;color:black">
+                            <td colspan="9" style='border-top:1px solid black;border-right:1px solid black;text-align:left; font-size:12px;padding:3px 0 3px 10px;text-align:left'>[CALL SIGN] FREQUENCIES</td>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--<tr ng-repeat="x in entity.JCSTBL" style='border-bottom:1px solid #ccc;border-top:1px solid #ccc'>
+                            <td style='border-right:1px solid #ccc;text-align:left; font-weight:bold;padding:3px 0 3px 5px;text-align:center'>
+                                {{x.X}}
+                            </td>
+                            <td style='border-right:1px solid #ccc;padding:3px 5px 3px 5px;text-align:center '>
+                                {{x.FUEL}}
+                            </td>
+                        </tr>
+                        <tr style='border-bottom:1px solid #ccc;border-top:1px solid #ccc;height:116px'>
+                        </tr>-->
+                    </tbody>
+                </table>
+                <table ng-repeat="x in entity.JCSTBL" style='border:1px solid #ccc;margin-top:5px;width:100% ' class="pln">
+                    <tr>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:bold;padding:3px 0 3px 5px;text-align:center;width:5%'>{{x.ETN!='0'?x.ETN:''}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:bold;padding:3px 0 3px 5px;text-align:center;width:10%'>{{x.APT}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:10%'>{{x.ATI}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:13px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:10%'>{{x.ETP}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:5%'>{{x.FUR}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:5%'>{{x.FUQ}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:5%'>{{x.FUD}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:5%'>{{x.TIM}}</td>
+                        <td style='border-right:1px solid #ccc;text-align:left; font-size:14px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:5%'>{{x.DIS}}</td>
+                        <td rowspan="2" style='border-right:1px solid #ccc;text-align:left; font-size:13px;font-weight:normal;padding:3px 0 3px 5px;text-align:center;width:30%'>{{x.RWY}}</td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="9" style='border-top: 1px solid #ccc; border-right: 1px solid #ccc; text-align: left; font-size: 14px; font-weight: normal; padding: 3px 0 3px 10px; text-align: left'>{{x.FRE}}</td>
+                    </tr>
+
+                </table>
 
 
             </div>
